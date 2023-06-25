@@ -1,0 +1,39 @@
+# Ignore build artifacts
+/bin/
+/obj/
+
+# Ignore NuGet packages
+*.nupkg
+/packages/
+
+# Ignore build output
+*.dll
+*.exe
+*.pdb
+
+# Ignore user-specific files
+*.userprefs
+*.suo
+*.user
+
+# Ignore Visual Studio files
+.vs/
+/.vscode/
+
+# Ignore macOS-specific files
+.DS_Store
+
+# Ignore Android-specific files
+/bin/
+/obj/
+*.apk
+*.aab
+
+# Ignore iOS-specific files
+/bin/
+/obj/
+*.ipa
+*.app
+
+# Ignore Maui specific files
+MauiGeneratedFiles/

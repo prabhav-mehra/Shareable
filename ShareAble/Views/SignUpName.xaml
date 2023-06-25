@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShareAble.SignUpName"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ShareAble.Converters"
+    Title="SignUpName"
+    xmlns:viewModel="clr-namespace:ShareAble.ViewModel"
+    BackgroundColor="Black"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Animated">
+
+    <ContentPage.Resources>
+        <converter:StepVisibilityConverter x:Key="StepVisibilityConverter" />
+        <converter:StepButtonVisibilityConverter x:Key="StepButtonVisibilityConverter" />
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Margin="0,20,0,0">
+        <Label
+            FontAttributes="Bold"
+            FontSize="26"
+            HorizontalOptions="Center"
+            Text="ShareAble."
+            TextColor="White"
+            VerticalOptions="Center" />
+
+
+
+        <StackLayout x:Name="Step1Layout" IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=0}">
+
+
+            <Label
+                Margin="5"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="Let's get started, what's your name?"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+
+            <Entry
+                x:Name="entryName"
+                Margin="20"
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Placeholder="Your Name"
+                PlaceholderColor="Gray"
+                TextChanged="OnEntryChanged"
+                TextColor="White" />
+        </StackLayout>
+
+        <StackLayout x:Name="Step2Layout" IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=1}">
+            <Label
+                Margin="5"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="Hi Name, when's your birthday?"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+
+                <Entry
+                    x:Name="dayEntry"
+                    Margin="20"
+                    FontSize="20"
+                    Keyboard="Numeric"
+                    MaxLength="2"
+                    Placeholder="DD"
+                    PlaceholderColor="Gray"
+                    TextChanged="dayEntry_TextChanged"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+
+                <Entry
+                    x:Name="monthEntry"
+                    Margin="20"
+                    FontSize="20"
+                    Keyboard="Numeric"
+                    MaxLength="2"
+                    Placeholder="MM"
+                    PlaceholderColor="Gray"
+                    TextChanged="monthEntry_TextChanged"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+
+                <Entry
+                    x:Name="yearEntry"
+                    Margin="20"
+                    FontSize="20"
+                    Keyboard="Numeric"
+                    MaxLength="4"
+                    Placeholder="YYYY"
+                    PlaceholderColor="Gray"
+                    TextChanged="yearEntry_TextChanged"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+            </HorizontalStackLayout>
+
+        </StackLayout>
+
+        <!--  Step 3: Email  -->
+        <StackLayout x:Name="Step3Layout" IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=2}">
+            <Label
+                Margin="10"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="Create your account using your phone number."
+                TextColor="White"
+                VerticalOptions="Center" />
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button
+                    Margin="20"
+                    BackgroundColor="Black"
+                    BorderColor="White"
+                    CornerRadius="20"
+                    HeightRequest="20"
+                    MaximumHeightRequest="20"
+                    Text="AU +61"
+                    TextColor="White"
+                    VerticalOptions="Start"
+                    WidthRequest="90" />
+                <Entry
+                    x:Name="contactEntry"
+                    FontSize="24"
+                    Keyboard="Numeric"
+                    Placeholder="Your phone"
+                    PlaceholderColor="Gray"
+                    TextChanged="contactEntry_TextChanged"
+                    TextColor="White" />
+            </HorizontalStackLayout>
+        </StackLayout>
+
+        <Label
+            FontSize="14"
+            HorizontalOptions="Center"
+            IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=1}"
+            Text="Only to make sure you're old enough to use ShareAble."
+            TextColor="Grey"
+            VerticalOptions="End" />
+        <Label
+            FontSize="14"
+            HorizontalOptions="Center"
+            IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=2}"
+            Text="By tapping 'Continue', you agree to our Privacy Policy and Terms of Service."
+            TextColor="Grey"
+            VerticalOptions="End" />
+
+
+        <Button
+            x:Name="buttonContinue"
+            Margin="20"
+            Command="{Binding SaveUserCommand}"
+            CommandParameter="{x:Reference buttonContinue}"
+            IsEnabled="False"
+            IsVisible="{Binding CurrentStep, Converter={StaticResource StepButtonVisibilityConverter}, ConverterParameter=Next}"
+            Text="Continue"
+            VerticalOptions="End" />
+    </VerticalStackLayout>
+</ContentPage>

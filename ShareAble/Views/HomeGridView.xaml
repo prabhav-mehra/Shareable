@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShareAble.HomeGridView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="HomeGridView"
+    BackgroundColor="Black"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Animated">
+    <ScrollView>
+
+        <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Margin="0,20,0,0">
+             <Label
+            FontAttributes="Bold"
+            FontSize="26"
+            HorizontalOptions="Center"
+            Text="ShareAble."
+            TextColor="White"
+            VerticalOptions="Center" />
+
+
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0">
+
+
+                    <Grid
+                        Margin="20"
+                        ColumnDefinitions="Auto,Auto,Auto"
+                        HorizontalOptions="FillAndExpand"
+                        RowDefinitions="Auto,Auto"
+                        VerticalOptions="FillAndExpand">
+                        <Image
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Aspect="AspectFit"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Source="emoji1.png"
+                            VerticalOptions="Start"
+                            WidthRequest="40" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="10,-10,0,0"
+                            HorizontalOptions="Center"
+                            Text="Name"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,-10,0,0"
+                            HorizontalOptions="Center"
+                            Text="Time"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+
+                    <Frame
+                        Margin="20,0,20,20"
+                        BackgroundColor="Black"
+                        BorderColor="#FFBAF5"
+                        CornerRadius="20"
+                        HeightRequest="300"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill">
+                       
+                        <VerticalStackLayout>
+                            <Grid
+                                BackgroundColor="Black"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                RowDefinitions="*,Auto">
+                                 <Image   Grid.Row="0"
+                                Grid.Column="0" Source="dotnet_bot.png" />
+
+                                <Image
+                                Grid.Row="1"
+                                Margin="30"
+                                Grid.Column="0"
+                                HeightRequest="30"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="30"
+                                Source="likeheart.png"
+                                VerticalOptions="End" />
+
+
+                            </Grid>
+                             
+
+                       
+                            
+                        </VerticalStackLayout>
+                      
+
+                    </Frame>
+
+
+                    <Grid Margin="20,0,20,20">
+                        <Frame
+                            Margin="0"
+                            Padding="1"
+                            BorderColor="#FFBAF5"
+                            CornerRadius="20"
+                            HeightRequest="40">
+
+
+                            <Entry
+                                BackgroundColor="Black"
+                                Placeholder="Enter text"
+                                TextColor="White" />
+
+
+                        </Frame>
+                        <Image
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Source="emoji1.png"
+                            VerticalOptions="Center"
+                            WidthRequest="40" />
+                    </Grid>
+                </StackLayout>
+
+                <!--  Your content goes here  -->
+                <Frame
+                    Grid.Row="1"
+                    Margin="10,140,0,0"
+                    Padding="0"
+                    BackgroundColor="Black"
+                    BorderColor="#FFBAF5"
+                    CornerRadius="30"
+                    HeightRequest="60"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    
+                    WidthRequest="60" >
+                    <Button Clicked="CapturePhotoButton_Clicked" BackgroundColor="Transparent"/>
+                    </Frame>
+            </Grid>
+
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

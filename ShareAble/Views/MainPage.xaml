@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShareAble.MainPage"
+    xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="Black"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Animated">
+
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:PermissionStatusToVisibilityConverter x:Key="PermissionStatusToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+
+            <!--  Text above the card  -->
+            <Label
+                Grid.Row="0"
+                Margin="20,10,0,0"
+                FontAttributes="Bold"
+                FontSize="28"
+                HorizontalOptions="Start"
+                Text="Explore"
+                TextColor="White"
+                VerticalOptions="Start" />
+
+            <Label
+                Grid.Row="1"
+                Margin="20,20,0,0"
+                FontSize="12"
+                HorizontalOptions="Start"
+                Text="CREATE YOUR CIRCLE"
+                TextColor="White"
+                VerticalOptions="Start" />
+
+            <Frame
+                Grid.Row="2"
+                Margin="20"
+                BackgroundColor="#FFBAF5"
+                BorderColor="#FFBAF5"
+                CornerRadius="20">
+
+                <Grid
+                    BackgroundColor="#FFBAF5"
+                    ColumnDefinitions="Auto,Auto"
+                    RowDefinitions="Auto,Auto">
+
+                    <Label
+                        Grid.Row="0"
+                        Margin="10,0,0,0"
+                        Text="Name: Prabhav" />
+
+                    <!--  Rounded plus button  -->
+                    <Frame
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10,10,0,0"
+                        Padding="0"
+                        BackgroundColor="White"
+                        BorderColor="Black"
+                        CornerRadius="20"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                       
+                        WidthRequest="40">
+                         <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Frame.GestureRecognizers>
+                        <Label
+                            FontSize="24"
+                            HorizontalOptions="Center"
+                            Text="+"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                    </Frame>
+
+
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+                        <Frame
+                            Margin="-40,10,0,0"
+                            Padding="0"
+                            BackgroundColor="Black"
+                            CornerRadius="20"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Image Aspect="AspectFit" Source="emoji1.png" />
+                        </Frame>
+                        <!--<Frame
+                            Margin="-10,10,0,0"
+                            Padding="0"
+                            BackgroundColor="Black"
+                            CornerRadius="20"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Image Aspect="AspectFit" Source="emoji2.png" />
+                        </Frame>
+                        <Frame
+                            Margin="-10,10,0,0"
+                            Padding="0"
+                            BackgroundColor="Black"
+                            CornerRadius="20"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Image Aspect="AspectFit" Source="emoji3.png" />
+                        </Frame>
+                        <Frame
+                            Margin="-10,10,0,0"
+                            Padding="0"
+                            BackgroundColor="Black"
+                            CornerRadius="20"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Image Aspect="AspectFit" Source="emoji4.png" />
+                        </Frame>-->
+                    </StackLayout>
+                </Grid>
+
+            </Frame>
+            <Label
+                Grid.Row="3"
+                Margin="20,20,0,0"
+                FontSize="12"
+                HorizontalOptions="Start"
+                Text="CONTACTS"
+                TextColor="White"
+                VerticalOptions="Start" />
+            <StackLayout Grid.Row="4" Margin="20,10,20,10">
+                <Frame
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    BackgroundColor="White"
+                    BorderColor="SlateGrey"
+                    CornerRadius="20"
+                    HeightRequest="40">
+                    <SearchBar
+                        CancelButtonColor="Black"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Search"
+                        VerticalOptions="Center" />
+                </Frame>
+            </StackLayout>
+            <StackLayout Grid.Row="5" Margin="20">
+                <CollectionView ItemsSource="{Binding Cards}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                   
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5,0,5,0">
+                            <Frame
+                                Margin="10,7,10,7"
+                                BackgroundColor="#FFBAF5"
+                                BorderColor="#FFBAF5"
+                                CornerRadius="20"
+                                HeightRequest="140"
+
+                                MaximumHeightRequest="210"
+                                
+                                WidthRequest="180">
+                                <!--  Card content here  -->
+                                <Grid
+                                    ColumnDefinitions="Auto,Auto"
+                                    RowDefinitions="Auto,Auto,Auto"
+                                   
+                                    VerticalOptions="StartAndExpand">
+
+                                    <!--  Image  -->
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Aspect="AspectFit"
+                                        HeightRequest="50"
+                                        HorizontalOptions="Start"
+                                        Source="{Binding ImageSource}"
+                                        VerticalOptions="Start"
+                                        WidthRequest="50" />
+
+                                    <!--  Rounded Add button  -->
+                                    <Button
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="-50,0,2,0"
+                                        BackgroundColor="Black"
+                                        Clicked="AddUser_Clicked"
+                                        BorderColor="Black"
+                                        BorderWidth="1"
+                                        CornerRadius="20"
+                                        HeightRequest="20"
+                                        HorizontalOptions="End"
+                                        MaximumHeightRequest="20"
+                                        Text="Add"
+                                        TextColor="White"
+                                        VerticalOptions="Start"
+                                        WidthRequest="90" />
+
+                                    <!--  Name or text  -->
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="5,7,5,2"
+                                        FontAttributes="Bold"
+                                        Text="Name Surname"
+                                        VerticalOptions="Start" />
+
+                                    <!--  Another text  -->
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="5,2,5,2"
+                                        FontAttributes="Bold"
+                                        VerticalOptions="Start">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="💖" />
+                                                <Span Text="  " />
+                                                <Span Text="{Binding PartnerName}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                                </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

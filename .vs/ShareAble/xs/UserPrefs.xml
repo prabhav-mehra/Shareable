@@ -1,0 +1,46 @@
+﻿<Properties StartupConfiguration="{D53BB7C1-19D1-4F0E-A1CC-9764779189CF}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ShareAble/Views/MainPage.xaml">
+    <Files>
+      <File FileName="ShareAble/Views/HomeGridView.xaml.cs" Line="36" Column="2" />
+      <File FileName="ShareAble/Views/SignUpName.xaml.cs" Line="21" Column="14" />
+      <File FileName="ShareAble/AppShell.xaml" Line="12" Column="26" />
+      <File FileName="ShareAble/Platforms/iOS/Program.cs" Line="13" Column="1" />
+      <File FileName="ShareAble/Views/SignUpName.xaml" Line="161" Column="29" />
+      <File FileName="ShareAble/Views/MainPage.xaml.cs" Line="16" Column="1" />
+      <File FileName="ShareAble/Views/MainPage.xaml" Line="109" Column="46" />
+      <File FileName="ShareAble/ViewModel/UsersItemViewModel.cs" Line="29" Column="13" NotebookId="1" />
+      <File FileName="ShareAble/MauiProgram.cs" Line="33" Column="55" NotebookId="1" />
+      <File FileName="ShareAble/Messages.cs" Line="12" Column="6" NotebookId="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ShareAble" expanded="True">
+            <Node name="ShareAble" expanded="True">
+              <Node name="Platforms" expanded="True">
+                <Node name="Android" expanded="True" />
+                <Node name="iOS" expanded="True" />
+              </Node>
+              <Node name="Services" expanded="True" />
+              <Node name="ViewModel" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="HomeGridView.xaml" expanded="True" />
+                <Node name="MainPage.xaml" expanded="True" selected="True" />
+                <Node name="SignUpName.xaml" expanded="True" />
+              </Node>
+              <Node name="App.xaml" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <Xamarin.Addins.Core.Project ActiveDebugTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.9B5AAD96-F9A1-48DA-99C5-BA814C1B1A9A" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ShareAble PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.9B5AAD96-F9A1-48DA-99C5-BA814C1B1A9A" />
+</Properties>

@@ -1,0 +1,161 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>ShareAble</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>ShareAble</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.esri.shareable</ApplicationId>
+		<ApplicationIdGuid>8ae42136-0f78-4ee3-a894-cfa76b6f4286</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignKey>iPhone Distribution</CodesignKey>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\emoji3.png" />
+	  <MauiImage Remove="Resources\Images\emoji2.png" />
+	  <MauiImage Remove="Resources\Images\emoji1.png" />
+	  <MauiImage Remove="Resources\Images\emoji5.png" />
+	  <MauiImage Remove="Resources\Images\emoji4.png" />
+	  <MauiImage Remove="Resources\Images\emoji6.png" />
+	  <MauiImage Remove="Resources\Images\emoji7.png" />
+	  <MauiImage Remove="Resources\Images\emoji10.png" />
+	  <MauiImage Remove="Resources\Images\likeheart.png" />
+	  <MauiImage Remove="Resources\Images\emoji3.png" />
+	  <MauiImage Remove="Resources\Images\emoji2.png" />
+	  <MauiImage Remove="Resources\Images\emoji1.png" />
+	  <MauiImage Remove="Resources\Images\emoji5.png" />
+	  <MauiImage Remove="Resources\Images\emoji4.png" />
+	  <MauiImage Remove="Resources\Images\emoji6.png" />
+	  <MauiImage Remove="Resources\Images\emoji7.png" />
+	  <MauiImage Remove="Resources\Images\emoji10.png" />
+	  <MauiImage Remove="Resources\Images\likeheart.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.5" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Core" Version="5.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Database\" />
+	  <None Remove="Converters\" />
+	  <None Remove="Services\" />
+	  <None Remove="Views\" />
+	  <None Remove="Resources\Images\emoji7.png" />
+	  <None Remove="Resources\Images\likeheart.png" />
+	  <None Remove="Resources\Images\emoji10.png" />
+	  <None Remove="Resources\Images\emoji5.png" />
+	  <None Remove="Resources\Images\emoji6.png" />
+	  <None Remove="Resources\Images\emoji4.png" />
+	  <None Remove="Resources\Images\emoji3.png" />
+	  <None Remove="Resources\Images\emoji2.png" />
+	  <None Remove="Resources\Images\emoji1.png" />
+	  <None Remove="Interfaces\" />
+	  <None Remove="ViewModel\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Database\" />
+	  <Folder Include="Converters\" />
+	  <Folder Include="Services\" />
+	  <Folder Include="Views\" />
+	  <Folder Include="Interfaces\" />
+	  <Folder Include="ViewModel\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Images\emoji7.png" />
+	  <BundleResource Include="Resources\Images\emoji7.png" />
+	  <BundleResource Include="Resources\Images\likeheart.png" />
+	  <BundleResource Include="Resources\Images\likeheart.png" />
+	  <BundleResource Include="Resources\Images\emoji10.png" />
+	  <BundleResource Include="Resources\Images\emoji10.png" />
+	  <BundleResource Include="Resources\Images\emoji5.png" />
+	  <BundleResource Include="Resources\Images\emoji5.png" />
+	  <BundleResource Include="Resources\Images\emoji6.png" />
+	  <BundleResource Include="Resources\Images\emoji6.png" />
+	  <BundleResource Include="Resources\Images\emoji4.png" />
+	  <BundleResource Include="Resources\Images\emoji4.png" />
+	  <BundleResource Include="Resources\Images\emoji3.png" />
+	  <BundleResource Include="Resources\Images\emoji3.png" />
+	  <BundleResource Include="Resources\Images\emoji2.png" />
+	  <BundleResource Include="Resources\Images\emoji2.png" />
+	  <BundleResource Include="Resources\Images\emoji1.png" />
+	  <BundleResource Include="Resources\Images\emoji1.png" />
+	  <BundleResource Include="Resources\Images\emoji3.png" />
+	  <BundleResource Include="Resources\Images\emoji2.png" />
+	  <BundleResource Include="Resources\Images\emoji1.png" />
+	  <BundleResource Include="Resources\Images\emoji5.png" />
+	  <BundleResource Include="Resources\Images\emoji4.png" />
+	  <BundleResource Include="Resources\Images\emoji6.png" />
+	  <BundleResource Include="Resources\Images\emoji7.png" />
+	  <BundleResource Include="Resources\Images\emoji10.png" />
+	  <BundleResource Include="Resources\Images\likeheart.png" />
+	  <BundleResource Include="Resources\Images\emoji3.png" />
+	  <BundleResource Include="Resources\Images\emoji2.png" />
+	  <BundleResource Include="Resources\Images\emoji1.png" />
+	  <BundleResource Include="Resources\Images\emoji5.png" />
+	  <BundleResource Include="Resources\Images\emoji4.png" />
+	  <BundleResource Include="Resources\Images\emoji6.png" />
+	  <BundleResource Include="Resources\Images\emoji7.png" />
+	  <BundleResource Include="Resources\Images\emoji10.png" />
+	  <BundleResource Include="Resources\Images\likeheart.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Views\SignUpName.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HomeGridView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MainPage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	</ItemGroup>
+</Project>
