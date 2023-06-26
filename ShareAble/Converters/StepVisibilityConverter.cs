@@ -37,7 +37,7 @@ namespace ShareAble.Converters
             {
 
                 // Adjust the MaxStep value based on your form's maximum step count
-                int maxStep = 3;
+                int maxStep = 4;
                 return currentStep < maxStep ? true : false;
 
             }

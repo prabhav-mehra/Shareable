@@ -8,6 +8,7 @@
     xmlns:viewModel="clr-namespace:ShareAble.ViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="False"
+    x:DataType="viewModel:UsersItemViewModel"
     Shell.PresentationMode="Animated">
 
     <ContentPage.Resources>
@@ -137,6 +138,37 @@
             </HorizontalStackLayout>
         </StackLayout>
 
+        <StackLayout  x:Name="Step4Layout" IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=3}" Margin="10,30,10,10">
+             <Label
+                Margin="10,2,10,10"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="Choose your avatar."
+                TextColor="White"
+                VerticalOptions="Center" />
+
+            <CollectionView ItemsSource="{Binding Emojis}">
+    <CollectionView.ItemsLayout>
+        <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="10" VerticalItemSpacing="10"  />
+    </CollectionView.ItemsLayout>
+    <CollectionView.ItemTemplate>
+        <DataTemplate>
+            <Frame Padding="10" CornerRadius="5" BackgroundColor="Black" Margin="10" 
+                                BorderColor="Black">
+                             <Frame.GestureRecognizers>
+                    <TapGestureRecognizer />
+                </Frame.GestureRecognizers>
+                <Image Source="{Binding .}" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                        </Frame>
+        </DataTemplate>
+    </CollectionView.ItemTemplate>
+</CollectionView>
+
+
+        </StackLayout>
+
         <Label
             FontSize="14"
             HorizontalOptions="Center"
@@ -156,9 +188,10 @@
         <Button
             x:Name="buttonContinue"
             Margin="20"
+           
+            
             Command="{Binding SaveUserCommand}"
             CommandParameter="{x:Reference buttonContinue}"
-            IsEnabled="False"
             IsVisible="{Binding CurrentStep, Converter={StaticResource StepButtonVisibilityConverter}, ConverterParameter=Next}"
             Text="Continue"
             VerticalOptions="End" />

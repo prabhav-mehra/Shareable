@@ -29,9 +29,15 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<SignUpName>();
         builder.Services.AddSingleton<HomeGridView>();
-        builder.Services.AddSingleton<UsersItemDatabase>();
-		builder.Services.AddTransient<UsersItemViewModel>();
+        builder.Services.AddSingleton<PartnerItemDatabase>();
+        builder.Services.AddTransient<LocalUsersDatabase>();
+        builder.Services.AddTransient<PostsDatabase>();
+        builder.Services.AddTransient<UsersItemViewModel>();
+		builder.Services.AddTransient<ContactsViewModel>();
+		builder.Services.AddTransient<PostsViewModel>();
+
         builder.Services.AddSingleton<IContactsService, ContactsService>();
+
 
         return builder.Build();
 	}

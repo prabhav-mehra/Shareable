@@ -1,6 +1,9 @@
 ﻿
 using ShareAble.Database;
 using ShareAble.Interfaces;
+using ShareAble.Model;
+using ShareAble.ViewModel;
+using SQLite;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,37 +12,23 @@ namespace ShareAble;
 
 public partial class MainPage : ContentPage
 {
-    UsersItemDatabase database;
+    PartnerItemDatabase database;
 
     public PermissionStatus PermissionStatus { get; set; }
     public IContactsService serviceContact { get; set; }
 
-    public MainPage(UsersItemDatabase usersItemDatabase)
+    private ContactsViewModel _customViewModel;
+    LocalUsersDatabase _localDb;
+
+    public MainPage(PartnerItemDatabase usersItemDatabase, ContactsViewModel contactsViewModel, LocalUsersDatabase localdb)
     {
 
         InitializeComponent();
         database = usersItemDatabase;
+        _localDb = localdb;
         Loaded += MainPage_Loaded;
 
-        // Create sample cards
-        Cards = new ObservableCollection<Card>
-            {
-                new Card { ImageSource = "emoji1.png", Name = "Card 1", PartnerName = "Prabhav" },
-                new Card { ImageSource = "emoji2.png", Name = "Card 2", PartnerName = "Prabhav" },
-                new Card { ImageSource = "emoji3.png", Name = "Card 1", PartnerName = "Prabhav"},
-                new Card { ImageSource = "emoji4.png", Name = "Card 2", PartnerName = "Prabhav" },
-                new Card {ImageSource = "emoji5.png",  Name = "Card 1", PartnerName = "Prabhav" },
-                new Card {  ImageSource = "emoji6.png", Name = "Card 2",PartnerName = "Prabhav"},
-                new Card {   ImageSource = "emoji7.png", Name = "Card 1", PartnerName = "Prabhav" },
-                new Card {  ImageSource = "emoji10.png",Name = "Card 2", PartnerName = "Prabhav" },
-                new Card { ImageSource = "emoji1.png", Name = "Card 1", PartnerName = "Prabhav"},
-                new Card {  ImageSource = "emoji1.png",Name = "Card 2", PartnerName = "Prabhav" },
-                new Card {  ImageSource = "emoji1.png",Name = "Card 1", PartnerName = "Prabhav" },
-                new Card { ImageSource = "emoji1.png", Name = "Card 2",PartnerName = "Prabhav"},
-                // Add more cards as needed
-            };
-
-        BindingContext = this;
+        BindingContext = contactsViewModel;
     }
 
     private async void MainPage_Loaded(object sender, EventArgs e)
@@ -47,44 +36,53 @@ public partial class MainPage : ContentPage
         PermissionStatus = await Permissions.RequestAsync<Permissions.ContactsRead>();
         await Permissions.RequestAsync<Permissions.Camera>();
         Console.WriteLine(PermissionStatus);
+        //Preferences.Set("CurrentUserId", "4");
+        //await _localDb.DeleteAllItemAsync();
+
+        //LocalUser localUser = new LocalUser
+        //{
+        //    Name = "Shivani Bedi",
+        //    ID = 0,
+        //    ContactNumber = 123,
+        //    DOB = "07/07/1980",
+        //    ImageSource = "emoji2.png",
+        //    HasPartner = false,
+
+        //};
+
+        //LocalUser localUser1 = new LocalUser
+        //{
+        //    Name = "Prabhav Mehra",
+        //    ID = 0,
+        //    ContactNumber = 123,
+        //    DOB = "07/07/1980",
+        //    ImageSource = "emoji2.png",
+        //    HasPartner = false,
+
+        //};
+
+
+        //await _localDb.SaveItemAsync(localUser);
+        //await _localDb.SaveItemAsync(localUser1);
+        List<LocalUser> localUsers = await _localDb.GetItemsAsync();
+        foreach (LocalUser localUser123 in localUsers)
+        {
+            Console.WriteLine($"ID: {localUser123.ID}");
+            Console.WriteLine($"Name: {localUser123.Name}");
+            Console.WriteLine($"PartnerID: {localUser123.HasPartner}");
+            // Print other properties as needed
+            Console.WriteLine("-------------------------");
+        }
+
 
         //serviceContact = new IContactsService();
         //IContactsService myInterface = DependencyService.Get<IContactsService>();
-       
+
         //List<Contact> contacts = await myInterface.GetAppContacts();
 
         ////ContactService contactService = new();
         ////IAsyncEnumerable<string> contactValues = contactService.GetContactNames();
-
-        //foreach (Contact value in contacts)
-        //{
-        //    // Process each value here
-        //    Console.WriteLine(value.FamilyName);
-        //}
-
-        List<UsersModel> users = await database.GetItemsAsync();
-        Debug.WriteLine("HEre" + users.Count);
-        foreach (UsersModel user in users)
-        {
-
-            Debug.WriteLine(user.Name);
-        }
     }
-
-    public ObservableCollection<Card> Cards { get; }
-  
-
-    private void OnCounterClicked(object sender, EventArgs e)
-	{
-		//count++;
-
-		//if (count == 1)
-		//	CounterBtn.Text = $"Clicked {count} time";
-		//else
-		//	CounterBtn.Text = $"Clicked {count} times";
-
-		//SemanticScreenReader.Announce(CounterBtn.Text);
-	}
 
     private void AddUser_Clicked(object sender, EventArgs e)
     {
@@ -95,16 +93,8 @@ public partial class MainPage : ContentPage
         button.Text = "Added";
     }
 
-    private async void  TapGestureRecognizer_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    private async void TapGestureRecognizer_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        await Navigation.PushAsync(new HomeGridView());
+        await Shell.Current.GoToAsync(nameof(HomeGridView));
     }
 }
-
-public class Card
-{
-    public string ImageSource { get; set; }
-    public string Name { get; set; }
-    public string PartnerName { get; set; }
-}
-

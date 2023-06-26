@@ -4,150 +4,236 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="HomeGridView"
+    xmlns:postsViewModel="clr-namespace:ShareAble.ViewModel"
+    xmlns:model="clr-namespace:ShareAble.Model"
     BackgroundColor="Black"
-    Shell.NavBarIsVisible="False"
+    Shell.BackgroundColor="Black"
+ 
+    x:DataType="postsViewModel:PostsViewModel"
+    xmlns:local="clr-namespace:ShareAble.Converters"
     Shell.PresentationMode="Animated">
-    <ScrollView>
+    <Shell.BackButtonBehavior>
+    <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+</Shell.BackButtonBehavior>
 
+
+
+   <Shell.TitleView>
+       
+
+            
+       <Grid Padding="0,40,0,0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    
+    <!-- Leftmost Button -->
+            <Frame
+                Grid.Column="0" 
+                
+                
+                BackgroundColor="Black"
+                BorderColor="#FFBAF5"
+                CornerRadius="15"
+                HeightRequest="30"
+                 HorizontalOptions="Start"
+        VerticalOptions="Center"
+                    
+                WidthRequest="30" >
+                <Frame.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </Frame.GestureRecognizers>
+                <Button Clicked="CapturePhotoButton_Clicked" BackgroundColor="Transparent"/>
+            </Frame>
+    <!--<Button
+        Text="Left"
+        HeightRequest="30"
+        WidthRequest="30"
+        HorizontalOptions="Start"
+        VerticalOptions="Center"
+        Grid.Column="0" />-->
+    
+    <!-- Centered Label -->
+    <Label
+        FontAttributes="Bold"
+        FontSize="26"
+        Text="ShareAble."
+        TextColor="White"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        Grid.Column="1" />
+    
+    <!-- Rightmost Button -->
+    <Button
+        Text="Right"
+        HeightRequest="30"
+        HorizontalOptions="End"
+        VerticalOptions="Center"
+        Clicked="CapturePhotoButton_Clicked"
+        Grid.Column="2" />
+</Grid>
+
+       
+</Shell.TitleView>
+
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem>
+    <ToolbarItem.IconImageSource >
+      <FontImageSource 
+        FontFamily="MaterialIconsOutlined-Regular"
+        Glyph="&#xe51c;" />
+    </ToolbarItem.IconImageSource>
+  </ToolbarItem>
+    </ContentPage.ToolbarItems>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout>
+          
         <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Margin="0,20,0,0">
-             <Label
+            <!--<Label
             FontAttributes="Bold"
             FontSize="26"
             HorizontalOptions="Center"
             Text="ShareAble."
             TextColor="White"
-            VerticalOptions="Center" />
+            VerticalOptions="Center" />-->
+
+            <CollectionView ItemsSource="{Binding PostsCollection}" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Posts">
+
+                        
 
 
-            <Grid VerticalOptions="FillAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                <StackLayout Grid.Row="0">
-
-
-                    <Grid
-                        Margin="20"
-                        ColumnDefinitions="Auto,Auto,Auto"
-                        HorizontalOptions="FillAndExpand"
-                        RowDefinitions="Auto,Auto"
-                        VerticalOptions="FillAndExpand">
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Aspect="AspectFit"
-                            HeightRequest="40"
-                            HorizontalOptions="Start"
-                            Source="emoji1.png"
-                            VerticalOptions="Start"
-                            WidthRequest="40" />
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Margin="10,-10,0,0"
-                            HorizontalOptions="Center"
-                            Text="Name"
-                            TextColor="White"
-                            VerticalOptions="Center" />
-
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="10,-10,0,0"
-                            HorizontalOptions="Center"
-                            Text="Time"
-                            TextColor="White"
-                            VerticalOptions="Center" />
-                    </Grid>
+                    <StackLayout Grid.Row="0">
 
 
-                    <Frame
-                        Margin="20,0,20,20"
-                        BackgroundColor="Black"
-                        BorderColor="#FFBAF5"
-                        CornerRadius="20"
-                        HeightRequest="300"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="Fill">
-                       
-                        <VerticalStackLayout>
-                            <Grid
-                                BackgroundColor="Black"
-                                ColumnDefinitions="Auto,*"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Center"
-                                RowDefinitions="*,Auto">
-                                 <Image   Grid.Row="0"
-                                Grid.Column="0" Source="dotnet_bot.png" />
-
-                                <Image
-                                Grid.Row="1"
-                                Margin="30"
+                        <Grid
+                            Margin="20"
+                            ColumnDefinitions="Auto,Auto,Auto"
+                            HorizontalOptions="FillAndExpand"
+                            RowDefinitions="Auto,Auto"
+                            VerticalOptions="FillAndExpand">
+                            <Image
+                                Grid.Row="0"
                                 Grid.Column="0"
-                                HeightRequest="30"
+                                Aspect="AspectFit"
+                                HeightRequest="40"
                                 HorizontalOptions="Start"
-                                MaximumHeightRequest="30"
-                                Source="likeheart.png"
-                                VerticalOptions="End" />
+                                Source="{Binding UserImage}"
+                                VerticalOptions="Start"
+                                WidthRequest="40" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                Text="{Binding UserName}"
+                                TextColor="White"
+                                VerticalOptions="Start" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,-10,0,0"
+                                HorizontalOptions="Start"
+                                Text="{Binding Timestamp}"
+                                TextColor="White"
+                                VerticalOptions="Start" />
+                        </Grid>
 
 
-                            </Grid>
-                             
-
-                       
-                            
-                        </VerticalStackLayout>
-                      
-
-                    </Frame>
-
-
-                    <Grid Margin="20,0,20,20">
                         <Frame
-                            Margin="0"
-                            Padding="1"
+                            Margin="20,0,20,20"
+                            BackgroundColor="Black"
                             BorderColor="#FFBAF5"
                             CornerRadius="20"
-                            HeightRequest="40">
+                            HeightRequest="300"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill">
+
+                            <VerticalStackLayout>
+                                <Grid
+                                    BackgroundColor="Black"
+                                    ColumnDefinitions="Auto,*"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    RowDefinitions="*,Auto">
+                                    <Image   Grid.Row="0"
+                                    Grid.Column="0" Source="dotnet_bot.png" />
+
+                        
+
+                                    <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Spacing="10" Margin="30,20,30,30" VerticalOptions="End"
+                                                 HorizontalOptions="Center">
+
+                                        <Image Source="likeheart.png" WidthRequest="30" HeightRequest="30" MaximumHeightRequest="40"
+                                               MaximumWidthRequest="30"/>
+                                               <Grid>
+                                             <Frame Margin="0" Padding="5" BorderColor="#FFBAF5" CornerRadius="20" BackgroundColor="Black" WidthRequest="320"
+                                                   HeightRequest="40">
+                                          
+                                                <Editor MaxLength="30"  AutoSize="TextChanges" BackgroundColor="Black" Placeholder="Enter text" TextColor="White" />
+
+                                            </Frame>
+                                             <Image Margin="1" HeightRequest="30" HorizontalOptions="End" Source="emoji1.png" VerticalOptions="Center" WidthRequest="40" />
+
+                                             
+                                        </Grid>
+                                       
+
+                                     
+                                    
+                                    </StackLayout>
 
 
-                            <Entry
-                                BackgroundColor="Black"
-                                Placeholder="Enter text"
-                                TextColor="White" />
+
+                                </Grid>
+                   
 
 
-                        </Frame>
-                        <Image
-                            HeightRequest="30"
-                            HorizontalOptions="End"
-                            Source="emoji1.png"
-                            VerticalOptions="Center"
-                            WidthRequest="40" />
-                    </Grid>
+
+                        </VerticalStackLayout>
+
+
+                    </Frame>
                 </StackLayout>
 
                 <!--  Your content goes here  -->
-                <Frame
-                    Grid.Row="1"
-                    Margin="10,140,0,0"
-                    Padding="0"
-                    BackgroundColor="Black"
-                    BorderColor="#FFBAF5"
-                    CornerRadius="30"
-                    HeightRequest="60"
-                    HorizontalOptions="Center"
-                    VerticalOptions="End"
-                    
-                    WidthRequest="60" >
-                    <Button Clicked="CapturePhotoButton_Clicked" BackgroundColor="Transparent"/>
-                    </Frame>
+                
             </Grid>
 
+                             </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+       
 
         </VerticalStackLayout>
+        
+   
+        </StackLayout>
+
+   
 
     </ScrollView>
 </ContentPage>

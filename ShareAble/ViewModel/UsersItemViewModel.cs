@@ -9,15 +9,25 @@ namespace ShareAble.ViewModel
 	{
 		[ObservableProperty]
 		public int currentStep;
-        static int MaxStep = 3;
+        static int MaxStep = 4;
         //public NavigationS NavigationService { get; set; }
+
+        List<string> emojis = new List<string>()
+        {
+            "emoji1.png", "emoji2.png", "emoji3.png", "emoji4.png", "emoji5.png", "emoji6.png",
+            "emoji7.png", "emoji10.png"
+        };
+
+        public List<string> Emojis { get; set; }
 
         public UsersItemViewModel()
 		{
-		}
+            Emojis = emojis;
+
+        }
 
 		[RelayCommand]
-		private void SaveUser(object sender)
+		private async void SaveUser(object sender)
 		{
             Console.WriteLine("Clicked" + CurrentStep + " " + sender);
             if (sender is Button button)
@@ -113,8 +123,9 @@ namespace ShareAble.ViewModel
                 //await database.SaveItemAsync(user5);
                 //await database.SaveItemAsync(user6);
                 //await database.SaveItemAsync(user7);
-                WeakReferenceMessenger.Default.Send(new MyMessage("NavigateToMainPage"));
+                //WeakReferenceMessenger.Default.Send(new MyMessage("NavigateToMainPage"));
                 //await Navigation.PushAsync(new MainPage(database));
+                await Shell.Current.GoToAsync(nameof(MainPage));
                 return;
             }
             if (CurrentStep < MaxStep)

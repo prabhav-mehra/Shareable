@@ -13,9 +13,9 @@ namespace ShareAble;
 public partial class SignUpName : ContentPage
 {
     UsersItemViewModel _usersItemViewModel;
-    UsersItemDatabase database;
+    PartnerItemDatabase database;
 
-    public SignUpName(UsersItemDatabase usersItemDatabase, UsersItemViewModel usersViewModel)
+    public SignUpName(PartnerItemDatabase usersItemDatabase, UsersItemViewModel usersViewModel)
     {
        
 		entryName.ShowKeyboardAsync(CancellationToken.None);
@@ -34,7 +34,8 @@ public partial class SignUpName : ContentPage
 
     private async void OnMessageReceived(string value)
     {
-        await Navigation.PushAsync(new MainPage(database));
+        await Shell.Current.GoToAsync(nameof(MainPage));
+        //await Navigation.PushAsync(new MainPage(database));
     }
 
     
