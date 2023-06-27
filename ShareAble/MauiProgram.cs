@@ -26,10 +26,11 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 		builder.UseMauiApp<App>().UseMauiCommunityToolkitCore();
-		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<SignUpName>();
-        builder.Services.AddSingleton<HomeGridView>();
-        builder.Services.AddSingleton<PartnerItemDatabase>();
+        builder.Services.AddTransient<HomeGridView>();
+        builder.Services.AddTransient<ImageDetailsView>();
+        builder.Services.AddTransient<PartnerItemDatabase>();
         builder.Services.AddTransient<LocalUsersDatabase>();
         builder.Services.AddTransient<PostsDatabase>();
         builder.Services.AddTransient<UsersItemViewModel>();

@@ -1,4 +1,5 @@
-﻿namespace ShareAble;
+﻿
+namespace ShareAble;
 
 public partial class AppShell : Shell
 {
@@ -9,6 +10,7 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         Routing.RegisterRoute(nameof(SignUpName), typeof(SignUpName));
         Routing.RegisterRoute(nameof(HomeGridView), typeof(HomeGridView));
+		Routing.RegisterRoute(nameof(ImageDetailsView), typeof(ImageDetailsView));
     }
 }
 

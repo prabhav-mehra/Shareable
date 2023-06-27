@@ -36,7 +36,7 @@ public partial class MainPage : ContentPage
         PermissionStatus = await Permissions.RequestAsync<Permissions.ContactsRead>();
         await Permissions.RequestAsync<Permissions.Camera>();
         Console.WriteLine(PermissionStatus);
-        //Preferences.Set("CurrentUserId", "4");
+        //Preferences.Set("CurrentUserId", "2");
         //await _localDb.DeleteAllItemAsync();
 
         //LocalUser localUser = new LocalUser
@@ -64,15 +64,15 @@ public partial class MainPage : ContentPage
 
         //await _localDb.SaveItemAsync(localUser);
         //await _localDb.SaveItemAsync(localUser1);
-        List<LocalUser> localUsers = await _localDb.GetItemsAsync();
-        foreach (LocalUser localUser123 in localUsers)
-        {
-            Console.WriteLine($"ID: {localUser123.ID}");
-            Console.WriteLine($"Name: {localUser123.Name}");
-            Console.WriteLine($"PartnerID: {localUser123.HasPartner}");
-            // Print other properties as needed
-            Console.WriteLine("-------------------------");
-        }
+        //List<LocalUser> localUsers = await _localDb.GetItemsAsync();
+        //foreach (LocalUser localUser123 in localUsers)
+        //{
+        //    Console.WriteLine($"ID: {localUser123.ID}");
+        //    Console.WriteLine($"Name: {localUser123.Name}");
+        //    Console.WriteLine($"HasPartner: {localUser123.HasPartner}");
+        //    // Print other properties as needed
+        //    Console.WriteLine("-------------------------");
+        //}
 
 
         //serviceContact = new IContactsService();

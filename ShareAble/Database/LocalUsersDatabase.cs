@@ -46,6 +46,11 @@ namespace ShareAble.Database
             return await Database.Table<LocalUser>().Where(i => i.ID == id).FirstOrDefaultAsync();
         }
 
+        public async Task<LocalUser> GetUserFromContact(long contactNumber)
+        {
+            return await Database.Table<LocalUser>().Where(i => i.ContactNumber == contactNumber).FirstOrDefaultAsync();
+        }
+
         public async Task<int> SaveItemAsync(LocalUser item)
         {
             await Init();
@@ -71,7 +76,9 @@ namespace ShareAble.Database
         public async Task<int> DeleteAllItemAsync()
         {
             await Init();
-            return await Database.DeleteAllAsync<LocalUser>();
+          
+             await Database.DeleteAllAsync<LocalUser>();
+            return await Database.DropTableAsync<LocalUser>();
         }
 
     }

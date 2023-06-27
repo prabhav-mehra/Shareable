@@ -1,38 +1,106 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Security.AccessControl;
 using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
-
+using CommunityToolkit.Mvvm.Input;
 using ShareAble.Database;
 using ShareAble.Model;
 
+
 namespace ShareAble.ViewModel
 {
-	public class PostsViewModel : ObservableObject
+	public partial class PostsViewModel : ObservableObject
 	{
         PostsDatabase _postsDatabase;
+        LocalUsersDatabase _localUserDatabase;
         public ObservableCollection<Posts> PostsCollection { get; } = new();
 
         public int LocalUserId { get; set; }
+        public string LocalUserName { get; set; }
+        public string LocalImageSource { get; set; }
+        public int PartnerUserId { get; set; }
 
-        public PostsViewModel(PostsDatabase postsDatabase)
+        public PostsViewModel(PostsDatabase postsDatabase, LocalUsersDatabase localUserDatabase)
 		{
             _postsDatabase = postsDatabase;
+            _localUserDatabase = localUserDatabase;
             Console.WriteLine("HERE");
-            Initalise();
+            GetPosts(null);
+            InitialisePartnerDetails();
 
         }
 
-		public async void Initalise()
+        [RelayCommand]
+        private async void PhotoClicked()
+        {
+            try
+            {
+                var options = new MediaPickerOptions
+                {
+                    Title = "Select or Capture Photo"
+                };
+
+                var photo = await MediaPicker.CapturePhotoAsync(options);
+                //var photo = await MediaPicker.CapturePhotoAsync();
+
+                if (photo != null)
+                {
+                    // Use the captured photo
+                    ImageSource imageSource = ImageSource.FromFile(photo.FullPath);
+                    byte[] imageBytes = File.ReadAllBytes(photo.FullPath);
+                    Console.WriteLine(imageBytes.Length);
+
+                    Posts newPost = new Posts
+                    {
+                        PictureId = 0,
+                        UserId = LocalUserId,
+                        PartnerId = PartnerUserId,
+                        PictureData = imageBytes,
+                        Caption = "Beautiful sunset",
+                        Timestamp = DateTime.Now,
+                        UserName = LocalUserName,
+                        UserImage = LocalImageSource
+                    };
+                    await _postsDatabase.SaveItemAsync(newPost);
+                    //MyImage.Source = imageSource;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during photo capture
+                Console.WriteLine($"Error capturing photo: {ex.Message}");
+            }
+        }
+
+        private async void InitialisePartnerDetails()
+        {
+            LocalUser localUser = await _localUserDatabase.GetItemAsync(LocalUserId);
+            PartnerUserId = localUser.PartnerID;
+            LocalUserName = localUser.Name;
+            LocalImageSource = localUser.ImageSource;
+        }
+
+        [RelayCommand]
+        private async void GoToPostDetails(Posts post)
+        {
+            Console.WriteLine("Clicked");
+            //Console.WriteLine(post.PictureId);
+
+            await Shell.Current.GoToAsync(nameof(ImageDetailsView));
+        }
+
+        [RelayCommand]
+        private async void GetPosts(object sender)
 		{
             LocalUserId = int.Parse(Preferences.Get("CurrentUserId", string.Empty));
-           
-            ImageSource source = ImageSource.FromFile("emoji1.png");
-            Stream imageStream = await ConvertImageSourceToStream(source);
-            Console.WriteLine("Image Byes" + imageStream);
 
+            //ImageSource source = ImageSource.FromFile("emoji1.png");
+            //Stream imageStream = await ConvertImageSourceToStream(source);
+            //Console.WriteLine("Image Byes" + imageStream);
+            //Stream imageStream = null;
             
-            byte[] imageBytes = ConvertFileStreamToByteArray(imageStream);
+            //byte[] imageBytes = ConvertFileStreamToByteArray(imageStream);
             // Save the imageData byte array to the SQLite database
 
             //string imagePath = "/Users/prabhavmehra/Desktop/mauiproject/ShareAble/ShareAble/ShareAble/Resources/Images/emoji1.png";
@@ -43,41 +111,41 @@ namespace ShareAble.ViewModel
             //await _postsDatabase.DeleteAllItemAsync();
             //Console.WriteLine(source.ToString());
             //Console.WriteLine("Image Byes" + imageBytes);
-            Posts post1 = new Posts
-            {
-                PictureId = 0,
-                UserId = 4,
-                PartnerId = 5,
-                PictureData = imageBytes,
-                Caption = "Beautiful sunset",
-                Timestamp = DateTime.Now,
-                UserName = "Shivani Bedi",
-                UserImage = "emoji1.png"
-            };
+            //Posts post1 = new Posts
+            //{
+            //    PictureId = 0,
+            //    UserId = 4,
+            //    PartnerId = 5,
+            //    PictureData = imageBytes,
+            //    Caption = "Beautiful sunset",
+            //    Timestamp = DateTime.Now,
+            //    UserName = "Shivani Bedi",
+            //    UserImage = "emoji1.png"
+            //};
 
-            Posts post2 = new Posts
-            {
-                PictureId = 0,
-                UserId = 5,
-                PartnerId = 4,
-                PictureData = imageBytes,
-                Caption = "Delicious dinner",
-                Timestamp = DateTime.Now,
-                UserName = "Prabhav Mehra",
-                UserImage = "emoji1.png"
-            };
+            //Posts post2 = new Posts
+            //{
+            //    PictureId = 0,
+            //    UserId = 5,
+            //    PartnerId = 4,
+            //    PictureData = imageBytes,
+            //    Caption = "Delicious dinner",
+            //    Timestamp = DateTime.Now,
+            //    UserName = "Prabhav Mehra",
+            //    UserImage = "emoji1.png"
+            //};
 
-            Posts post3 = new Posts
-            {
-                PictureId = 0,
-                UserId = 4,
-                PartnerId = 5,
-                PictureData = imageBytes,
-                Caption = "Adventurous hike",
-                Timestamp = DateTime.Now,
-                UserName = "Shivani Bedi",
-                UserImage = "emoji1.png"
-            };
+            //Posts post3 = new Posts
+            //{
+            //    PictureId = 0,
+            //    UserId = 4,
+            //    PartnerId = 5,
+            //    PictureData = imageBytes,
+            //    Caption = "Adventurous hike",
+            //    Timestamp = DateTime.Now,
+            //    UserName = "Shivani Bedi",
+            //    UserImage = "emoji1.png"
+            //};
 
             //await _postsDatabase.SaveItemAsync(post1);
             //await _postsDatabase.SaveItemAsync(post2);
@@ -103,48 +171,25 @@ namespace ShareAble.ViewModel
                 //Console.WriteLine($"PartnerID: {partnerLocal}");
                 // Print other properties as needed
                 Console.WriteLine("-------------------------");
-                PostsCollection.Add(posts);
-            }
-        }
-
-        public static async Task<Stream> ConvertImageSourceToStream(ImageSource imageSource)
-        {
-            if (imageSource is FileImageSource fileImageSource)
-            {
-                // Load the image file as a stream
-                var imageStream = File.OpenRead(fileImageSource.File);
-                return imageStream;
-            }
-
-            if (imageSource is UriImageSource uriImageSource)
-            {
-                // Download the image from the URI as a stream
-                using (var webClient = new System.Net.WebClient())
+                if (!PostsCollection.Any(u => u.PictureId == posts.PictureId) &&
+                    posts.UserId == LocalUserId &&
+                    posts.PartnerId == PartnerUserId)
                 {
-                    byte[] imageData = await webClient.DownloadDataTaskAsync(uriImageSource.Uri);
-                    return new MemoryStream(imageData);
+                    PostsCollection.Add(posts);
                 }
             }
-
-            if (imageSource is StreamImageSource streamImageSource)
+            Console.WriteLine("Posts Here");
+            if (sender !=  null)
             {
-                // Retrieve the stream from the StreamImageSource
-                Stream imageStream = await streamImageSource.Stream(CancellationToken.None);
-                return imageStream;
+                Console.WriteLine(sender);
             }
-
-            return null; // Return null if the conversion is not supported for the given ImageSource
-        }
-
-        public byte[] ConvertFileStreamToByteArray(Stream fileStream)
-        {
-            using (var memoryStream = new MemoryStream())
+            if (sender is RefreshView view)
             {
-                fileStream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
+                Console.WriteLine("Refresh False");
+                // Use the button reference to access properties or perform operations
+                view.IsRefreshing = false;
             }
         }
-
     }
 }
 

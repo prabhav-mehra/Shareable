@@ -69,7 +69,15 @@ namespace ShareAble.Database
         public async Task<int> DeleteAllItemAsync()
         {
             await Init();
-            return await Database.DeleteAllAsync<Partner>();
+            return  await Database.DeleteAllAsync<Partner>();
+            //return await Database.DropTableAsync<Partner>();
+        }
+
+        public async Task<Partner> GetPartnerDetails(int userId)
+        {
+            await Init();
+            return await Database.Table<Partner>().Where(i => i.UserId == userId
+            || i.PartnerUserId == userId).FirstOrDefaultAsync();
         }
 
         public async Task AddPartnerAsync(int userId, int partnerUserId)

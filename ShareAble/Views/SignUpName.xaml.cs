@@ -18,7 +18,7 @@ public partial class SignUpName : ContentPage
     public SignUpName(PartnerItemDatabase usersItemDatabase, UsersItemViewModel usersViewModel)
     {
        
-		entryName.ShowKeyboardAsync(CancellationToken.None);
+		//entryName.ShowKeyboardAsync(CancellationToken.None);
         InitializeComponent();
 
         _usersItemViewModel = usersViewModel;
@@ -26,16 +26,6 @@ public partial class SignUpName : ContentPage
 
         BindingContext = usersViewModel;
 
-        WeakReferenceMessenger.Default.Register<MyMessage>(this, (r, m) =>
-        {
-            OnMessageReceived(m.Value);
-        });
-    }
-
-    private async void OnMessageReceived(string value)
-    {
-        await Shell.Current.GoToAsync(nameof(MainPage));
-        //await Navigation.PushAsync(new MainPage(database));
     }
 
     
@@ -43,7 +33,7 @@ public partial class SignUpName : ContentPage
     {
         if(_usersItemViewModel.CurrentStep == 0)
         {
-            buttonContinue.IsEnabled = !string.IsNullOrWhiteSpace(e.NewTextValue);
+            buttonContinue.IsEnabled = e?.NewTextValue.Length > 2 ? true : false;
             buttonContinue.BackgroundColor = buttonContinue.IsEnabled.CompareTo(true) == 0 ? Color.FromRgb(255, 106, 233) : Colors.Gray;
         }
     }
@@ -93,6 +83,12 @@ public partial class SignUpName : ContentPage
     }
 
     private void contactEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        buttonContinue.IsEnabled = true;
+        buttonContinue.BackgroundColor = buttonContinue.IsEnabled.CompareTo(true) == 0 ? Color.FromRgb(255, 106, 233) : Colors.Gray;
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         buttonContinue.IsEnabled = true;
         buttonContinue.BackgroundColor = buttonContinue.IsEnabled.CompareTo(true) == 0 ? Color.FromRgb(255, 106, 233) : Colors.Gray;

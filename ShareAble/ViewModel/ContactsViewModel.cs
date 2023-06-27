@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.VisualBasic;
 using ShareAble.Database;
 using ShareAble.Model;
+using static Java.Util.Jar.Attributes;
 
 namespace ShareAble.ViewModel
 {
@@ -16,7 +18,7 @@ namespace ShareAble.ViewModel
         LocalUsersDatabase _localUsersDatabase;
 
         [ObservableProperty]
-        LocalUser _localUser;
+        LocalUser localUserProperty;
 
         [ObservableProperty]
         LocalUser _partnerLocalUser;
@@ -27,34 +29,36 @@ namespace ShareAble.ViewModel
         {
             database = usersItemDatabase;
             _localUsersDatabase = localUsersDatabase;
+            GetUsers(null);
             InitialiseLocalUser();
-            GetUsers();
+           
         }
 
         private async void InitialiseLocalUser()
         {
-            LocalUserId = int.Parse(Preferences.Get("CurrentUserId", string.Empty));
-            LocalUser = await _localUsersDatabase.GetItemAsync(LocalUserId);
-            List<Partner> localUsers = await database.GetItemsAsync();
-            foreach (Partner partnerLocal in localUsers)
-            {
-                Console.WriteLine($"ID: {partnerLocal.PartnerUserId}");
-                Console.WriteLine($"Name: {partnerLocal.UserId}");
-                //Console.WriteLine($"PartnerID: {partnerLocal}");
-                // Print other properties as needed
-                Console.WriteLine("-------------------------");
-            }
+            LocalUserId = int.Parse(Preferences.Get("CurrentUserId", "0"));
+            Console.WriteLine("Local User ID" + LocalUserId);
+            LocalUserProperty = await _localUsersDatabase.GetItemAsync(LocalUserId);
+            //List<Partner> localUsers = await database.GetItemsAsync();
+            //foreach (Partner partnerLocal in localUsers)
+            //{
+            //    Console.WriteLine($"ID: {partnerLocal.PartnerUserId}");
+            //    Console.WriteLine($"Name: {partnerLocal.UserId}");
+            //    //Console.WriteLine($"PartnerID: {partnerLocal}");
+            //    // Print other properties as needed
+            //    Console.WriteLine("-------------------------");
+            //}
 
-            Partner _partnerUser = await database.GetItemAsync(LocalUserId);
-            Console.WriteLine("USER ID" + _partnerUser.PartnerUserId);
+            //Partner _partnerUser = await database.GetItemAsync(LocalUserId);
+            //Console.WriteLine("USER ID" + _partnerUser.PartnerUserId);
 
-            PartnerLocalUser = await _localUsersDatabase.GetItemAsync(_partnerUser.PartnerUserId);
+            //PartnerLocalUser = await _localUsersDatabase.GetItemAsync(_partnerUser.PartnerUserId);
         }
 
         [RelayCommand]
-        private async void GetUsers()
+        private async void GetUsers(object sender)
         {
-           
+
             //await database.DeleteAllItemAsync();
             //Users user1 = new Users
             //{
@@ -141,6 +145,45 @@ namespace ShareAble.ViewModel
             //await database.SaveItemAsync(user6);
             //await database.SaveItemAsync(user7);
 
+            
+            //await _localUsersDatabase.DeleteAllItemAsync();
+            LocalUser newUser = new LocalUser
+            {
+                ID = 0,
+                Name = "Prabhav Mehra",
+                DOB = "11/11/2000",
+                ContactNumber = 345678,
+                ImageSource = "emoji3.png",
+                HasPartner = false,
+                PartnerID = 2,
+            };
+
+            LocalUser newUser2 = new LocalUser
+            {
+                ID = 0,
+                Name = "Shivani Bedi",
+                DOB = "03/08/2000",
+                ContactNumber = 123456,
+                ImageSource = "emoji1.png",
+                HasPartner = false,
+                PartnerID = 1,
+            };
+
+            LocalUser newUser3 = new LocalUser
+            {
+                ID = 0,
+                Name = "Jane Bump",
+                DOB = "2/02/2001",
+                ContactNumber = 09876,
+                ImageSource = "emoji2.png",
+                HasPartner = true,
+                PartnerID = 100,
+            };
+
+
+            //await _localUsersDatabase.SaveItemAsync(newUser);
+            //await _localUsersDatabase.SaveItemAsync(newUser2);
+            //await _localUsersDatabase.SaveItemAsync(newUser3);
 
             List<LocalUser> users = await _localUsersDatabase.GetItemsAsync();
            
@@ -148,13 +191,27 @@ namespace ShareAble.ViewModel
             //ObservableCollection<Card> Cards = new ObservableCollection<Card>();
             foreach (LocalUser user in users)
             {
-                if (!user.HasPartner && LocalUserId != user.ID)
+                if (!UsersCollection.Any(u => u.ID == user.ID))
                 {
-                    UsersCollection.Add(user);
+
+                    Console.WriteLine(user.HasPartner + " " + user.ID + " " + LocalUserId);
+                    if (!user.HasPartner && (user.ID != LocalUserId))
+                    {
+                        UsersCollection.Add(user);
+                    }
                 }
-               
-                //Console.WriteLine(user.Name);
             }
+            if (sender != null)
+            {
+                Console.WriteLine(sender);
+            }
+            if (sender is RefreshView view)
+            {
+                Console.WriteLine("Refresh False");
+                // Use the button reference to access properties or perform operations
+                view.IsRefreshing = false;
+            }
+            return;
         }
 
         [RelayCommand]
@@ -166,51 +223,88 @@ namespace ShareAble.ViewModel
         [RelayCommand]
         public async Task AddPartner(LocalUser sender)
         {
-            //List<LocalUser> localUsers = await _localUsersDatabase.GetItemsAsync();
-            //foreach (LocalUser localUser123 in localUsers)
-            //{
-            //    Console.WriteLine($"ID: {localUser123.ID}");
-            //    Console.WriteLine($"Name: {localUser123.Name}");
-            //    Console.WriteLine($"PartnerID: {localUser123.HasPartner}");
-            //    // Print other properties as needed
-            //    Console.WriteLine("-------------------------");
-            //}
 
+            await database.DeleteAllItemAsync();
 
-            //if (LocalUser == null || LocalUser.HasPartner)
-            //    return;
-
-            Console.WriteLine(LocalUserId +  "--" + sender.ID);
-            Console.WriteLine(sender.Name);
-            //await database.AddPartnerAsync(LocalUserId, sender.ID);
-
-            List<Partner> localUsers = await database.GetItemsAsync();
-            foreach (Partner partnerLocal in localUsers)
+            List<LocalUser> localUsers = await _localUsersDatabase.GetItemsAsync();
+            foreach (LocalUser localUser123 in localUsers)
             {
-                Console.WriteLine($"ID: {partnerLocal.PartnerUserId}");
-                Console.WriteLine($"Name: {partnerLocal.UserId}");
-                //Console.WriteLine($"PartnerID: {partnerLocal}");
+                Console.WriteLine($"ID Old: {localUser123.ID}");
+                Console.WriteLine($"Name Old: {localUser123.Name}");
+                Console.WriteLine($"HasPartner Old: {localUser123.HasPartner}");
                 // Print other properties as needed
                 Console.WriteLine("-------------------------");
             }
 
-            //LocalUser.PartnerName = sender.Name;
-            //LocalUser.HasPartner = true;
-            //LocalUser.PartnerContactNumber = sender.ContactNumber;
-            //LocalUser.PartnetID = sender.ID;
+   
+            Console.WriteLine(LocalUserId +  "--" + sender.ID);
+            Console.WriteLine(sender.Name);
+            //await database.AddPartnerAsync(LocalUserId, sender.ID);
 
-            //int localUserResult = await _localUsersDatabase.SaveItemAsync(LocalUser);
+            AddPartnerToLocalUser(sender.ID, LocalUserId);
+            AddPartnerToPartnerUser(LocalUserId, sender.ID);
 
-            ////Partner users = await database.GetItemAsync(sender.ID);
-            ////users.PartnerName = LocalUser.Name;
-            ////users.HasPartner = true;
-            ////users.PartnerContactNumber = LocalUser.ContactNumber;
+        }
 
-            //int usersResult = await database.SaveItemAsync(users);
+        private async void AddPartnerToPartnerUser(int userId, int partnerUserId)
+        {
+            LocalUser localUser = await _localUsersDatabase.GetItemAsync(userId);
+            Console.WriteLine(localUser.ID + " " + localUser.Name + " " + localUser.HasPartner);
+           
+            LocalUser updateUser = new LocalUser
+            {
+                ID = localUser.ID,
+                Name = localUser.Name,
+                DOB = localUser.DOB,
+                ContactNumber = localUser.ContactNumber,
+                ImageSource = localUser.ImageSource,
+                HasPartner = true,
+                PartnerID = partnerUserId,
+            };
+           
 
-            //Console.WriteLine("Add partner" +  sender.Name + sender.PartnerName);
-            //Console.WriteLine(sender.ID);
+            await _localUsersDatabase.SaveItemAsync(updateUser);
 
+            List<LocalUser> localUsers = await _localUsersDatabase.GetItemsAsync();
+            foreach (LocalUser localUser123 in localUsers)
+            {
+                Console.WriteLine($"ID: {localUser123.ID}");
+                Console.WriteLine($"Name: {localUser123.Name}");
+                Console.WriteLine($"HasPartner: {localUser123.HasPartner}");
+                // Print other properties as needed
+                Console.WriteLine("-------------------------");
+            }
+        }
+
+        private async void AddPartnerToLocalUser(int partnerUserId, int userId)
+        {
+         
+
+            LocalUser partnerUser = await _localUsersDatabase.GetItemAsync(partnerUserId);
+            Console.WriteLine(partnerUser.ID + " " + partnerUser.Name + " " + partnerUser.HasPartner);
+       
+            LocalUser updatePartnerUser = new LocalUser
+            {
+                ID = partnerUser.ID,
+                Name = partnerUser.Name,
+                DOB = partnerUser.DOB,
+                ContactNumber = partnerUser.ContactNumber,
+                ImageSource = partnerUser.ImageSource,
+                HasPartner = true,
+                PartnerID = userId,
+            };
+            
+            await _localUsersDatabase.SaveItemAsync(updatePartnerUser);
+
+            List<LocalUser> localUsers = await _localUsersDatabase.GetItemsAsync();
+            foreach (LocalUser localUser123 in localUsers)
+            {
+                Console.WriteLine($"ID: {localUser123.ID}");
+                Console.WriteLine($"Name: {localUser123.Name}");
+                Console.WriteLine($"HasPartner: {localUser123.HasPartner}");
+                // Print other properties as needed
+                Console.WriteLine("-------------------------");
+            }
         }
     }
 }

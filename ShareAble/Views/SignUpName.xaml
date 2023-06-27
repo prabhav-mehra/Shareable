@@ -4,11 +4,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:ShareAble.Converters"
-    Title="SignUpName"
     xmlns:viewModel="clr-namespace:ShareAble.ViewModel"
+    Title="SignUpName"
+    x:DataType="viewModel:UsersItemViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="False"
-    x:DataType="viewModel:UsersItemViewModel"
     Shell.PresentationMode="Animated">
 
     <ContentPage.Resources>
@@ -47,6 +47,7 @@
                 HorizontalTextAlignment="Center"
                 Placeholder="Your Name"
                 PlaceholderColor="Gray"
+                Text="{Binding Name}"
                 TextChanged="OnEntryChanged"
                 TextColor="White" />
         </StackLayout>
@@ -61,9 +62,7 @@
                 TextColor="White"
                 VerticalOptions="Center" />
 
-
             <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-
 
                 <Entry
                     x:Name="dayEntry"
@@ -73,6 +72,7 @@
                     MaxLength="2"
                     Placeholder="DD"
                     PlaceholderColor="Gray"
+                    Text="{Binding Day}"
                     TextChanged="dayEntry_TextChanged"
                     TextColor="White"
                     VerticalTextAlignment="Center" />
@@ -85,6 +85,7 @@
                     MaxLength="2"
                     Placeholder="MM"
                     PlaceholderColor="Gray"
+                    Text="{Binding Month}"
                     TextChanged="monthEntry_TextChanged"
                     TextColor="White"
                     VerticalTextAlignment="Center" />
@@ -97,6 +98,7 @@
                     MaxLength="4"
                     Placeholder="YYYY"
                     PlaceholderColor="Gray"
+                    Text="{Binding Year}"
                     TextChanged="yearEntry_TextChanged"
                     TextColor="White"
                     VerticalTextAlignment="Center" />
@@ -120,7 +122,9 @@
                     Margin="20"
                     BackgroundColor="Black"
                     BorderColor="White"
+                    BorderWidth="2"
                     CornerRadius="20"
+                    FontSize="18"
                     HeightRequest="20"
                     MaximumHeightRequest="20"
                     Text="AU +61"
@@ -133,13 +137,17 @@
                     Keyboard="Numeric"
                     Placeholder="Your phone"
                     PlaceholderColor="Gray"
+                    Text="{Binding ContactNumber}"
                     TextChanged="contactEntry_TextChanged"
                     TextColor="White" />
             </HorizontalStackLayout>
         </StackLayout>
 
-        <StackLayout  x:Name="Step4Layout" IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=3}" Margin="10,30,10,10">
-             <Label
+        <StackLayout
+            x:Name="Step4Layout"
+            Margin="10,30,10,10"
+            IsVisible="{Binding CurrentStep, Converter={StaticResource StepVisibilityConverter}, ConverterParameter=3}">
+            <Label
                 Margin="10,2,10,10"
                 FontAttributes="Bold"
                 FontSize="18"
@@ -149,22 +157,39 @@
                 VerticalOptions="Center" />
 
             <CollectionView ItemsSource="{Binding Emojis}">
-    <CollectionView.ItemsLayout>
-        <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="10" VerticalItemSpacing="10"  />
-    </CollectionView.ItemsLayout>
-    <CollectionView.ItemTemplate>
-        <DataTemplate>
-            <Frame Padding="10" CornerRadius="5" BackgroundColor="Black" Margin="10" 
-                                BorderColor="Black">
-                             <Frame.GestureRecognizers>
-                    <TapGestureRecognizer />
-                </Frame.GestureRecognizers>
-                <Image Source="{Binding .}" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" />
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="10"
+                        Orientation="Vertical"
+                        Span="3"
+                        VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="10"
+                            Padding="10"
+                            BackgroundColor="Black"
+                            BorderColor="Black"
+                            CornerRadius="5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:UsersItemViewModel}}, Path=EmojiFrameCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Tapped="TapGestureRecognizer_Tapped" />
+                            </Frame.GestureRecognizers>
+                            <Image
+                                x:Name="imageEmoji"
+                                HeightRequest="80"
+                                HorizontalOptions="Center"
+                                Source="{Binding .}"
+                                VerticalOptions="Center"
+                                WidthRequest="80" />
 
                         </Frame>
-        </DataTemplate>
-    </CollectionView.ItemTemplate>
-</CollectionView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
 
         </StackLayout>
@@ -188,10 +213,10 @@
         <Button
             x:Name="buttonContinue"
             Margin="20"
-           
-            
+            BackgroundColor="Gray"
             Command="{Binding SaveUserCommand}"
             CommandParameter="{x:Reference buttonContinue}"
+            IsEnabled="False"
             IsVisible="{Binding CurrentStep, Converter={StaticResource StepButtonVisibilityConverter}, ConverterParameter=Next}"
             Text="Continue"
             VerticalOptions="End" />

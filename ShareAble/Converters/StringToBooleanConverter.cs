@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Converters;
+using System;
 using System.Globalization;
 
 namespace ShareAble.Converters
@@ -23,10 +24,10 @@ namespace ShareAble.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-          
-            string name = value as string;
-          
-            return string.IsNullOrEmpty(name) ? Colors.Black: Colors.LightGray;
+            Console.WriteLine("Value converter" + value);
+            bool boolValue = (bool)value;
+            Console.WriteLine("Value converter" + boolValue);
+            return boolValue ? Colors.White : Colors.Black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -59,6 +60,22 @@ namespace ShareAble.Converters
             string name = value as string;
 
             return string.IsNullOrEmpty(name) ? Colors.White : Colors.Black;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class BoolToDisableConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Console.WriteLine(value);
+            bool boolValue = (bool)value;
+
+            return !boolValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

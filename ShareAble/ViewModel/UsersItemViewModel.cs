@@ -2,14 +2,36 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ShareAble.Database;
+using ShareAble.Model;
 
 namespace ShareAble.ViewModel
 {
 	public partial class UsersItemViewModel : ObservableObject
 	{
-		[ObservableProperty]
+        LocalUsersDatabase _localUsersDatabase;
+
+        [ObservableProperty]
 		public int currentStep;
         static int MaxStep = 4;
+
+        [ObservableProperty]
+        string name;
+
+        [ObservableProperty]
+        string day;
+
+        [ObservableProperty]
+        string month;
+
+        [ObservableProperty]
+        string year;
+
+        [ObservableProperty]
+        long contactNumber;
+
+        [ObservableProperty]
+        string emoji;
         //public NavigationS NavigationService { get; set; }
 
         List<string> emojis = new List<string>()
@@ -20,15 +42,36 @@ namespace ShareAble.ViewModel
 
         public List<string> Emojis { get; set; }
 
-        public UsersItemViewModel()
+        public UsersItemViewModel(LocalUsersDatabase localUsersDatabase)
 		{
+            _localUsersDatabase = localUsersDatabase;
+           
             Emojis = emojis;
+        }
 
+        [RelayCommand]
+        private void EmojiFrame(object sender)
+        {
+            Emoji = sender.ToString();      
+        }
+
+        private async Task StoreNewUserDetails()
+        {
+            Console.WriteLine(ContactNumber);
+            LocalUser storedNewUser = await _localUsersDatabase.GetUserFromContact(ContactNumber);
+            if (storedNewUser != null)
+            {
+                Console.WriteLine("NEW USER" + storedNewUser.ID);
+                Preferences.Set("CurrentUserId", storedNewUser.ID.ToString());
+                bool signedUp = true;
+                Preferences.Set("SignedUp", signedUp.ToString());
+            }
         }
 
 		[RelayCommand]
 		private async void SaveUser(object sender)
 		{
+            //await _localUsersDatabase.DeleteAllItemAsync();
             Console.WriteLine("Clicked" + CurrentStep + " " + sender);
             if (sender is Button button)
             {
@@ -39,92 +82,98 @@ namespace ShareAble.ViewModel
             
             if (CurrentStep == MaxStep - 1)
             {
-                //UsersModel user1 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "John",
-                //    ContactNumber = 1234567890,
-                //    DOB = "01/01/1990",
-                //    HasPartner = true,
-                //    PartnerName = "Jane",
-                //    PartnerContactNumber = 9876543210
-                //};
+               
+              
+                Console.WriteLine($"Name {Name} Date {Day}/{Month}/{Year} Contact {ContactNumber} Emoji {Emoji}");
 
-                //UsersModel user2 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "Alice",
-                //    ContactNumber = 9876543210,
-                //    DOB = "02/02/1995",
-                //    HasPartner = false,
-                //    PartnerName = "",
-                //    PartnerContactNumber = -1
-                //};
+                LocalUser newUser = new LocalUser
+                {
+                    ID = 0,
+                    Name = Name,
+                    DOB = $"{Day}/{Month}/{Year}",
+                    ContactNumber = ContactNumber,
+                    ImageSource = Emoji,
+                    HasPartner = false,
+                   
+                };
 
-                //UsersModel user3 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "Bob",
-                //    ContactNumber = 5555555555,
-                //    DOB = "03/03/1985",
-                //    HasPartner = true,
-                //    PartnerName = "Eve",
-                //    PartnerContactNumber = 9999999999
-                //};
+                LocalUser newUser2 = new LocalUser
+                {
+                    ID = 0,
+                    Name = "Shivani Bedi",
+                    DOB = "03/08/2000",
+                    ContactNumber = 123456,
+                    ImageSource = "emoji1.png",
+                    HasPartner = false,
+                   
+                };
 
-                //UsersModel user4 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "Sarah",
-                //    ContactNumber = 1111111111,
-                //    DOB = "04/04/2000",
-                //    HasPartner = false,
-                //    PartnerName = "",
-                //    PartnerContactNumber = -1
-                //};
+                LocalUser newUser3 = new LocalUser
+                {
+                    ID = 0,
+                    Name = "Jane Bump",
+                    DOB = "2/02/2001",
+                    ContactNumber = 09876,
+                    ImageSource = "emoji2.png",
+                    HasPartner = true,
+                    
+                };
 
-                //UsersModel user5 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "Michael",
-                //    ContactNumber = 7777777777,
-                //    DOB = "05/05/1992",
-                //    HasPartner = true,
-                //    PartnerName = "Emily",
-                //    PartnerContactNumber = 2222222222
-                //};
+                LocalUser newUser4 = new LocalUser
+                {
+                    ID = 0,
+                    Name = "ROnald rist",
+                    DOB = "05/02/1985",
+                    ContactNumber = 123456,
+                    ImageSource = "emoji1.png",
+                    HasPartner = false,
+                   
+                };
 
-                //UsersModel user6 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "Olivia",
-                //    ContactNumber = 4444444444,
-                //    DOB = "06/06/1998",
-                //    HasPartner = false,
-                //    PartnerName = "",
-                //    PartnerContactNumber = -1
-                //};
+                LocalUser newUser5 = new LocalUser
+                {
+                    ID = 0,
+                    Name = "Shane Dawson",
+                    DOB = "12/12/2001",
+                    ContactNumber = 09876,
+                    ImageSource = "emoji6.png",
+                    HasPartner = true,
+                   
+                };
 
-                //UsersModel user7 = new UsersModel
-                //{
-                //    ID = 0,
-                //    Name = "David",
-                //    ContactNumber = 6666666666,
-                //    DOB = "07/07/1980",
-                //    HasPartner = true,
-                //    PartnerName = "Jessica",
-                //    PartnerContactNumber = 6666666666
-                //};
+                LocalUser newUser6 = new LocalUser
+                {
+                    ID = 0,
+                    Name = "Hinam Mehra",
+                    DOB = "13/11/1995",
+                    ContactNumber = 123456,
+                    ImageSource = "emoji3.png",
+                    HasPartner = false,
+                   
+                };
 
-                //await database.SaveItemAsync(user1);
-                //await database.SaveItemAsync(user2);
-                //await database.SaveItemAsync(user3);
-                //await database.SaveItemAsync(user4);
-                //await database.SaveItemAsync(user5);
-                //await database.SaveItemAsync(user6);
-                //await database.SaveItemAsync(user7);
-                //WeakReferenceMessenger.Default.Send(new MyMessage("NavigateToMainPage"));
-                //await Navigation.PushAsync(new MainPage(database));
+
+
+                await _localUsersDatabase.SaveItemAsync(newUser);
+                await _localUsersDatabase.SaveItemAsync(newUser2);
+                await _localUsersDatabase.SaveItemAsync(newUser3);
+                await _localUsersDatabase.SaveItemAsync(newUser4);
+                await _localUsersDatabase.SaveItemAsync(newUser5);
+                await _localUsersDatabase.SaveItemAsync(newUser6);
+                
+
+                List<LocalUser> localUsers = await _localUsersDatabase.GetItemsAsync();
+                foreach (LocalUser partnerLocal in localUsers)
+                {
+                    Console.WriteLine($"ID: {partnerLocal.ID}");
+                    Console.WriteLine($"Name: {partnerLocal.Name}");
+                    //Console.WriteLine($"PartnerID: {partnerLocal}");
+                    // Print other properties as needed
+                    Console.WriteLine("-------------------------");
+                }
+                await StoreNewUserDetails();
+
+                // TODO: SET CURRENT USER ID
                 await Shell.Current.GoToAsync(nameof(MainPage));
                 return;
             }

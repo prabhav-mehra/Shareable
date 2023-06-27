@@ -107,7 +107,6 @@
 	  <Folder Include="Database\" />
 	  <Folder Include="Converters\" />
 	  <Folder Include="Services\" />
-	  <Folder Include="Views\" />
 	  <Folder Include="Interfaces\" />
 	  <Folder Include="ViewModel\" />
 	  <Folder Include="Model\" />
@@ -151,6 +150,9 @@
 	  <BundleResource Include="Resources\Images\likeheart.png" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Views\ImageDetailsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SignUpName.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
