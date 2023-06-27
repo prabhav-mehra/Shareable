@@ -3,18 +3,10 @@
     x:Class="ShareAble.ImageDetailsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:ShareAble.Converters"
-    xmlns:model="clr-namespace:ShareAble.Model"
-    xmlns:postsViewModel="clr-namespace:ShareAble.ViewModel"
     Title="ImageDetailsView"
-    x:DataType="postsViewModel:PostsViewModel"
-    BackgroundColor="Black"
-    Shell.BackgroundColor="Black"
+    Shell.NavBarIsVisible="False"
     Shell.PresentationMode="Animated">
     <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
+       
     </VerticalStackLayout>
 </ContentPage>

@@ -84,10 +84,10 @@ namespace ShareAble.ViewModel
         [RelayCommand]
         private async void GoToPostDetails(Posts post)
         {
-            Console.WriteLine("Clicked");
-            //Console.WriteLine(post.PictureId);
+            //Console.WriteLine("Clicked");
+            ////Console.WriteLine(post.PictureId);
 
-            await Shell.Current.GoToAsync(nameof(ImageDetailsView));
+            //await Shell.Current.GoToAsync(nameof(ImageDetailsView));
         }
 
         [RelayCommand]
