@@ -49,10 +49,8 @@ namespace ShareAble.ViewModel
             //    Console.WriteLine("-------------------------");
             //}
 
-            //Partner _partnerUser = await database.GetItemAsync(LocalUserId);
-            //Console.WriteLine("USER ID" + _partnerUser.PartnerUserId);
-
-            //PartnerLocalUser = await _localUsersDatabase.GetItemAsync(_partnerUser.PartnerUserId);
+         
+            PartnerLocalUser = await _localUsersDatabase.GetItemAsync(LocalUserProperty.PartnerID);
         }
 
         [RelayCommand]

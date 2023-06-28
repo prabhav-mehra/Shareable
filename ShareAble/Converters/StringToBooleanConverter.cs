@@ -27,7 +27,7 @@ namespace ShareAble.Converters
             Console.WriteLine("Value converter" + value);
             bool boolValue = (bool)value;
             Console.WriteLine("Value converter" + boolValue);
-            return boolValue ? Colors.White : Colors.Black;
+            return boolValue ? Colors.Black : Colors.Grey;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

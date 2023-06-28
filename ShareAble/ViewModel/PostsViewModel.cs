@@ -25,6 +25,7 @@ namespace ShareAble.ViewModel
 		{
             _postsDatabase = postsDatabase;
             _localUserDatabase = localUserDatabase;
+           
             Console.WriteLine("HERE");
             GetPosts(null);
             InitialisePartnerDetails();
@@ -34,6 +35,8 @@ namespace ShareAble.ViewModel
         [RelayCommand]
         private async void PhotoClicked()
         {
+            //await _postsDatabase.DeleteAllItemAsync();
+            Console.WriteLine("Photo clicked");
             try
             {
                 var options = new MediaPickerOptions
@@ -50,6 +53,7 @@ namespace ShareAble.ViewModel
                     ImageSource imageSource = ImageSource.FromFile(photo.FullPath);
                     byte[] imageBytes = File.ReadAllBytes(photo.FullPath);
                     Console.WriteLine(imageBytes.Length);
+                    string capturedAddress = await GetCurrentLocation();
 
                     Posts newPost = new Posts
                     {
@@ -60,8 +64,10 @@ namespace ShareAble.ViewModel
                         Caption = "Beautiful sunset",
                         Timestamp = DateTime.Now,
                         UserName = LocalUserName,
-                        UserImage = LocalImageSource
+                        UserImage = LocalImageSource,
+                        Address = capturedAddress
                     };
+         
                     await _postsDatabase.SaveItemAsync(newPost);
                     //MyImage.Source = imageSource;
                 }
@@ -84,10 +90,53 @@ namespace ShareAble.ViewModel
         [RelayCommand]
         private async void GoToPostDetails(Posts post)
         {
-            //Console.WriteLine("Clicked");
-            ////Console.WriteLine(post.PictureId);
+            Console.WriteLine("Clicked");
+            Console.WriteLine(post.PictureId);
+
+            if (post == null)
+                return;
+            Console.WriteLine("Clicked2s");
+            Console.WriteLine(post.PictureId);
+            await Shell.Current.GoToAsync(nameof(ImageDetailsView), true, new Dictionary<string, object>
+            {
+                {nameof(Posts), post }
+            });
 
             //await Shell.Current.GoToAsync(nameof(ImageDetailsView));
+        }
+
+        public async Task<string> GetCurrentLocation()
+        {
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            var location = await Geolocation.GetLocationAsync(request);
+            string address = "";
+
+            if (location != null)
+            {
+                // Location found
+                double latitude = location.Latitude;
+                double longitude = location.Longitude;
+                var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                if (placemarks != null && placemarks.Any())
+                {
+                    var placemark = placemarks.FirstOrDefault();
+                    address = placemark.Thoroughfare + ", " + placemark.Locality + ", " + placemark.AdminArea + " " + placemark.PostalCode;
+                    // Use the address as needed
+                    Console.WriteLine(address);
+                   
+                }
+                // ...
+            }
+            else
+            {
+               
+                // Unable to get location
+                // Handle the error or show a message to the user
+            }
+
+
+
+            return address;
         }
 
         [RelayCommand]

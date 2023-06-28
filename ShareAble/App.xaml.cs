@@ -1,4 +1,5 @@
-﻿using ShareAble.Database;
+﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+using ShareAble.Database;
 using ShareAble.Model;
 using ShareAble.ViewModel;
 
@@ -10,7 +11,9 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+        SetupHandlers();
+
+        MainPage = new AppShell();
 	}
 
     protected override async void OnStart()
@@ -25,11 +28,34 @@ public partial class App : Application
 
         await Shell.Current.GoToAsync("///" + nameof(SignUpName));
     }
+    private void SetupHandlers()
+    {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
+        {
+            if (view is BorderlessEntry)
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList =
+                    Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
+#endif
+#if IOS || MACCATALYST
+                handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+            }
+        });
+    }
 
     private bool InitAsync()
     {
         bool signedUp = bool.Parse(Preferences.Get("SignedUp", "false"));
         return signedUp;
+    }
+}
+
+public class BorderlessEntry : Entry
+{
+    public BorderlessEntry()
+    {
     }
 }
 

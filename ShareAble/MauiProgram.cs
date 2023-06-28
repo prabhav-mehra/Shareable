@@ -36,6 +36,7 @@ public static class MauiProgram
         builder.Services.AddTransient<UsersItemViewModel>();
 		builder.Services.AddTransient<ContactsViewModel>();
 		builder.Services.AddTransient<PostsViewModel>();
+        builder.Services.AddTransient<PostsDetailViewModel>();
 
         builder.Services.AddSingleton<IContactsService, ContactsService>();
 

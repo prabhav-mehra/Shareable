@@ -108,7 +108,6 @@
 	  <Folder Include="Converters\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Interfaces\" />
-	  <Folder Include="ViewModel\" />
 	  <Folder Include="Model\" />
 	</ItemGroup>
 	<ItemGroup>

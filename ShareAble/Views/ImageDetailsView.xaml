@@ -3,10 +3,178 @@
     x:Class="ShareAble.ImageDetailsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns:postsDetailViewModel="clr-namespace:ShareAble.ViewModel"
     Title="ImageDetailsView"
-    Shell.NavBarIsVisible="False"
+    x:DataType="postsDetailViewModel:PostsDetailViewModel"
+    BackgroundColor="Black"
+    Shell.BackgroundColor="Black"
     Shell.PresentationMode="Animated">
-    <VerticalStackLayout>
-       
-    </VerticalStackLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <Grid Padding="{OnPlatform Android='0,0,0,0', iOS='0,20,0,0'}">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Leftmost Button  -->
+
+            <Label
+                Grid.Column="0"
+                Margin="-5,0,0,0"
+                FontAttributes="Bold"
+                FontSize="26"
+                HorizontalOptions="Center"
+                Text="ShareAble."
+                TextColor="White"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="1"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                Text="Right"
+                VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="0,0,0,0"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0">
+
+                    <Grid
+                        Margin="20"
+                        ColumnDefinitions="Auto,Auto,Auto"
+                        HorizontalOptions="FillAndExpand"
+                        RowDefinitions="Auto,Auto,Auto"
+                        VerticalOptions="FillAndExpand">
+
+                        <Image
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,10,0,0"
+                            Aspect="AspectFit"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Source="{Binding Posts.UserImage}"
+                            VerticalOptions="Start"
+                            WidthRequest="40" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Start"
+                            Text="{Binding Posts.UserName}"
+                            TextColor="White"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,-25,0,0"
+                            HorizontalOptions="Start"
+                            Text="{Binding Posts.Timestamp}"
+                            TextColor="Gray"
+                            VerticalOptions="Start" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="10,-5,0,0"
+                            HorizontalOptions="Start"
+                            Text="{Binding Posts.Address}"
+                            TextColor="Gray"
+                            VerticalOptions="Start" />
+                    </Grid>
+
+                    <Border
+                        Margin="10,-10,10,10"
+                        Padding="0"
+                        BackgroundColor="Black"
+                        HeightRequest="500"
+                        Stroke="#FFBAF5"
+                        StrokeShape="RoundRectangle 20">
+
+
+                        <VerticalStackLayout Margin="0" Padding="0">
+
+                            <Image
+                                Margin="0"
+                                Aspect="AspectFit"
+                                HorizontalOptions="Fill"
+                                Source="{Binding Posts.PictureData, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                VerticalOptions="Fill" />
+                        </VerticalStackLayout>
+
+
+                    </Border>
+                    <StackLayout>
+                        <AbsoluteLayout>
+                            <Border
+                                Margin="0"
+                                Padding="0"
+                                AbsoluteLayout.LayoutBounds="0,200, 1, 1"
+                                AbsoluteLayout.LayoutFlags="All"
+                                BackgroundColor="Black"
+                                HeightRequest="200"
+                                Stroke="#FFBAF5"
+                                StrokeShape="RoundRectangle 20">
+
+                                <Editor
+                                    x:Name="editorCaption"
+                                    Margin="10"
+                                    AutoSize="TextChanges"
+                                    BackgroundColor="Black"
+                                    FontSize="16"
+                                    Text="{Binding Posts.Caption, Mode=TwoWay}"
+                                    TextColor="White" />
+
+                            </Border>
+
+                            <Button
+                                AbsoluteLayout.LayoutBounds="1, 0, 90, 70"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                BackgroundColor="Red"
+                                Command="{Binding AddCaptionCommand}"
+                                HeightRequest="40"
+                                Text="Button"
+                                TextColor="White"
+                                WidthRequest="60" />
+                        </AbsoluteLayout>
+
+
+
+
+
+                    </StackLayout>
+
+
+
+                </StackLayout>
+
+
+
+                <!--  Your content goes here  -->
+
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -30,20 +30,20 @@
             </Grid.ColumnDefinitions>
 
             <!--  Leftmost Button  -->
-            <Frame
+            <Border
                 Grid.Column="0"
                 BackgroundColor="Black"
-                BorderColor="#FFBAF5"
-                CornerRadius="15"
                 HeightRequest="30"
                 HorizontalOptions="Start"
+                Stroke="#FFBAF5"
+                StrokeShape="RoundRectangle 15"
                 VerticalOptions="Center"
                 WidthRequest="30">
-                <Frame.GestureRecognizers>
+                <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type postsViewModel:PostsViewModel}}, Path=PhotoClickedCommand}" />
-                </Frame.GestureRecognizers>
-                <Button BackgroundColor="Transparent" />
-            </Frame>
+                </Border.GestureRecognizers>
+
+            </Border>
             <!--<Button
         Text="Left"
         HeightRequest="30"
@@ -109,13 +109,14 @@
             TextColor="White"
             VerticalOptions="Center" />-->
 
-                    <CollectionView ItemsSource="{Binding PostsCollection}" SelectionMode="None">
+                    <CollectionView ItemsSource="{Binding PostsCollection}" SelectionMode="Single">
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="1" />
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:Posts">
+
 
 
 
@@ -128,13 +129,15 @@
 
                                     <StackLayout Grid.Row="0">
 
-
                                         <Grid
                                             Margin="20"
                                             ColumnDefinitions="Auto,Auto,Auto"
                                             HorizontalOptions="FillAndExpand"
-                                            RowDefinitions="Auto,Auto"
+                                            RowDefinitions="Auto,Auto,Auto"
                                             VerticalOptions="FillAndExpand">
+
+
+
                                             <Image
                                                 Grid.Row="0"
                                                 Grid.Column="0"
@@ -148,7 +151,7 @@
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
-                                                Margin="10,10,0,0"
+                                                Margin="10,0,0,0"
                                                 FontAttributes="Bold"
                                                 HorizontalOptions="Start"
                                                 Text="{Binding UserName}"
@@ -158,23 +161,31 @@
                                             <Label
                                                 Grid.Row="1"
                                                 Grid.Column="1"
-                                                Margin="10,-10,0,0"
+                                                Margin="10,-25,0,0"
                                                 HorizontalOptions="Start"
                                                 Text="{Binding Timestamp}"
                                                 TextColor="Gray"
                                                 VerticalOptions="Start" />
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Margin="10,-5,0,0"
+                                                HorizontalOptions="Start"
+                                                Text="{Binding Address}"
+                                                TextColor="Gray"
+                                                VerticalOptions="Start" />
                                         </Grid>
 
-                                        <Frame
-                                            Margin="10,0,10,10"
+                                        <Border
+                                            Margin="10,-10,10,10"
                                             Padding="0"
                                             BackgroundColor="Black"
-                                            BorderColor="#FFBAF5"
-                                            CornerRadius="20"
-                                            HeightRequest="500">
-                                            <Frame.GestureRecognizers>
+                                            HeightRequest="500"
+                                            Stroke="#FFBAF5"
+                                            StrokeShape="RoundRectangle 20">
+                                            <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type postsViewModel:PostsViewModel}}, Path=GoToPostDetailsCommand}" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
+                                            </Border.GestureRecognizers>
                                             <VerticalStackLayout Margin="0" Padding="0">
 
                                                 <Image
@@ -185,7 +196,7 @@
                                                     VerticalOptions="Fill" />
 
                                             </VerticalStackLayout>
-                                        </Frame>
+                                        </Border>
                                     </StackLayout>
 
 

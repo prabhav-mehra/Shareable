@@ -12,6 +12,15 @@ public partial class HomeGridView : ContentPage
         BindingContext = postsViewModel;
     }
 
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("Clicked");
+        //Console.WriteLine(post.PictureId);
+
+        await Shell.Current.GoToAsync(nameof(ImageDetailsView));
+
+    }
+
     //private async void CapturePhotoButton_Clicked(object sender, EventArgs e)
     //{
     //    Console.WriteLine("Clicked");

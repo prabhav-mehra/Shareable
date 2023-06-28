@@ -35,6 +35,8 @@ public partial class MainPage : ContentPage
     {
         PermissionStatus = await Permissions.RequestAsync<Permissions.ContactsRead>();
         await Permissions.RequestAsync<Permissions.Camera>();
+
+        await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
         Console.WriteLine(PermissionStatus);
         //Preferences.Set("CurrentUserId", "2");
         //await _localDb.DeleteAllItemAsync();
