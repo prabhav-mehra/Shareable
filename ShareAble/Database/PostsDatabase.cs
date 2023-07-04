@@ -45,6 +45,12 @@ namespace ShareAble.Database
             || i.UserId == userId).ToListAsync();
         }
 
+        public async Task<List<Posts>> GetLocalUserPosts(int userId)
+        {
+            await Init();
+            return await Database.Table<Posts>().Where(i => i.UserId == userId).ToListAsync();
+        }
+
         public async Task<Posts> GetItemAsync(int id)
         {
 

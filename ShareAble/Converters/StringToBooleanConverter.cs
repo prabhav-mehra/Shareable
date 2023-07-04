@@ -27,7 +27,7 @@ namespace ShareAble.Converters
             Console.WriteLine("Value converter" + value);
             bool boolValue = (bool)value;
             Console.WriteLine("Value converter" + boolValue);
-            return boolValue ? Colors.Black : Colors.Grey;
+            return boolValue ? Colors.Black : Colors.LightGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -72,7 +72,7 @@ namespace ShareAble.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Console.WriteLine(value);
+            Console.WriteLine("Book to valye + " + value);
             bool boolValue = (bool)value;
 
             return !boolValue;

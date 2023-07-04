@@ -4,12 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:postsDetailViewModel="clr-namespace:ShareAble.ViewModel"
     Title="ImageDetailsView"
     x:DataType="postsDetailViewModel:PostsDetailViewModel"
     BackgroundColor="Black"
     Shell.BackgroundColor="Black"
     Shell.PresentationMode="Animated">
+
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="Black" />
+    </Page.Behaviors>
+
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -34,15 +40,10 @@
                 FontAttributes="Bold"
                 FontSize="26"
                 HorizontalOptions="Center"
-                Text="ShareAble."
+                Text="DateRate"
                 TextColor="White"
                 VerticalOptions="Center" />
-            <Button
-                Grid.Column="1"
-                HeightRequest="40"
-                HorizontalOptions="End"
-                Text="Right"
-                VerticalOptions="Center" />
+           
         </Grid>
     </Shell.TitleView>
     <ScrollView>
@@ -119,6 +120,7 @@
                                 Margin="0"
                                 Aspect="AspectFit"
                                 HorizontalOptions="Fill"
+                                ScaleX="-1"
                                 Source="{Binding Posts.PictureData, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                                 VerticalOptions="Fill" />
                         </VerticalStackLayout>
@@ -148,15 +150,13 @@
 
                             </Border>
 
-                            <Button
+                            <ImageButton
                                 AbsoluteLayout.LayoutBounds="1, 0, 90, 70"
                                 AbsoluteLayout.LayoutFlags="PositionProportional"
-                                BackgroundColor="Red"
                                 Command="{Binding AddCaptionCommand}"
-                                HeightRequest="40"
-                                Text="Button"
-                                TextColor="White"
-                                WidthRequest="60" />
+                                HeightRequest="30"
+                                Source="send2.png"
+                                WidthRequest="40" />
                         </AbsoluteLayout>
 
 

@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>ShareAble</ApplicationTitle>
+		<ApplicationTitle>ReCap</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.esri.shareable</ApplicationId>
@@ -59,7 +59,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiIcon Include="Resources\AppIcon\appiconupdate.svg" BaseSize="400,400" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -76,6 +76,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Camera.MAUI" Version="1.4.4" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.5" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -88,6 +89,9 @@
 	<ItemGroup>
 	  <None Remove="Database\" />
 	  <None Remove="Converters\" />
+	  <None Remove="Resources\AppIcon\appiconnew.svg" />
+	  <None Remove="Resources\Images\person.png" />
+	  <None Remove="Resources\Images\send.png" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="Resources\Images\emoji7.png" />
@@ -148,8 +152,15 @@
 	  <BundleResource Include="Resources\Images\emoji10.png" />
 	  <BundleResource Include="Resources\Images\likeheart.png" />
 	</ItemGroup>
+
 	<ItemGroup>
 	  <MauiXaml Update="Views\ImageDetailsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PostCameraView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SignUpName.xaml">
@@ -161,5 +172,9 @@
 	  <MauiXaml Update="Views\MainPage.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+	  <None Update="Resources\AppIcon\appiconnew.png" BaseSize="250,250" />
 	</ItemGroup>
 </Project>

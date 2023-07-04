@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-using ShareAble.Database;
-using ShareAble.Model;
-using ShareAble.ViewModel;
+﻿
 
 namespace ShareAble;
 
@@ -35,8 +32,8 @@ public partial class App : Application
             if (view is BorderlessEntry)
             {
 #if ANDROID
-                handler.PlatformView.BackgroundTintList =
-                    Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
+                //handler.PlatformView.BackgroundTintList =
+                //    Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
 #endif
 #if IOS || MACCATALYST
                 handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;

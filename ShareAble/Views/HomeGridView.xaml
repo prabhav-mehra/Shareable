@@ -3,7 +3,9 @@
     x:Class="ShareAble.HomeGridView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
     xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:model="clr-namespace:ShareAble.Model"
     xmlns:postsViewModel="clr-namespace:ShareAble.ViewModel"
     Title="HomeGridView"
@@ -11,6 +13,12 @@
     BackgroundColor="Black"
     Shell.BackgroundColor="Black"
     Shell.PresentationMode="Animated">
+
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="Black" />
+    </Page.Behaviors>
+
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
@@ -18,8 +26,6 @@
 
 
     <Shell.TitleView>
-
-
 
         <Grid Padding="{OnPlatform Android='0,0,0,0', iOS='0,20,0,0'}">
 
@@ -58,17 +64,22 @@
                 FontAttributes="Bold"
                 FontSize="26"
                 HorizontalOptions="Center"
-                Text="ShareAble."
+                Text="DateRate"
                 TextColor="White"
                 VerticalOptions="Center" />
 
             <!--  Rightmost Button  -->
-            <Button
+
+            <ImageButton
                 Grid.Column="2"
-                HeightRequest="40"
+                HeightRequest="27"
                 HorizontalOptions="End"
-                Text="Right"
+                Source="person2.png"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type postsViewModel:PostsViewModel}}, Path=ProfileClickedCommand}"
                 VerticalOptions="Center" />
+
+
+
         </Grid>
 
 
@@ -189,6 +200,7 @@
                                             <VerticalStackLayout Margin="0" Padding="0">
 
                                                 <Image
+                                                    ScaleX="-1"
                                                     Margin="0"
                                                     Aspect="AspectFit"
                                                     HorizontalOptions="Fill"
@@ -208,16 +220,8 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-
-
-
                 </VerticalStackLayout>
-
-
             </StackLayout>
-
-
-
         </ScrollView>
     </RefreshView>
 

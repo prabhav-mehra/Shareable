@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui;
+﻿using Camera.MAUI;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
 using ShareAble.Database;
@@ -16,6 +17,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+            .UseMauiCameraView()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -30,11 +32,14 @@ public static class MauiProgram
         builder.Services.AddTransient<SignUpName>();
         builder.Services.AddTransient<HomeGridView>();
         builder.Services.AddTransient<ImageDetailsView>();
+		builder.Services.AddTransient<ProfileView>();
+        builder.Services.AddTransient<PostCameraView>();
         builder.Services.AddTransient<PartnerItemDatabase>();
         builder.Services.AddTransient<LocalUsersDatabase>();
         builder.Services.AddTransient<PostsDatabase>();
         builder.Services.AddTransient<UsersItemViewModel>();
 		builder.Services.AddTransient<ContactsViewModel>();
+		builder.Services.AddTransient<ProfileViewModel>();
 		builder.Services.AddTransient<PostsViewModel>();
         builder.Services.AddTransient<PostsDetailViewModel>();
 

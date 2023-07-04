@@ -4,12 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:ShareAble.Converters"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:viewModel="clr-namespace:ShareAble.ViewModel"
     Title="SignUpName"
     x:DataType="viewModel:UsersItemViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="False"
     Shell.PresentationMode="Animated">
+
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="Black" />
+    </Page.Behaviors>
+
 
     <ContentPage.Resources>
         <converter:StepVisibilityConverter x:Key="StepVisibilityConverter" />
@@ -21,7 +27,7 @@
             FontAttributes="Bold"
             FontSize="26"
             HorizontalOptions="Center"
-            Text="ShareAble."
+            Text="DateRate"
             TextColor="White"
             VerticalOptions="Center" />
 
@@ -125,14 +131,15 @@
                     BorderWidth="2"
                     CornerRadius="20"
                     FontSize="18"
-                    HeightRequest="20"
-                    MaximumHeightRequest="20"
+                    HeightRequest="40"
+                    MaximumHeightRequest="40"
                     Text="AU +61"
                     TextColor="White"
-                    VerticalOptions="Start"
+                    VerticalOptions="Center"
                     WidthRequest="90" />
                 <Entry
                     x:Name="contactEntry"
+                    Margin="20"
                     FontSize="24"
                     Keyboard="Numeric"
                     Placeholder="Your phone"

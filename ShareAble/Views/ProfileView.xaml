@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShareAble.ProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+    xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:model="clr-namespace:ShareAble.Model"
+    xmlns:profileViewModel="clr-namespace:ShareAble.ViewModel"
+    Title="ProfileView"
+    x:DataType="profileViewModel:ProfileViewModel"
+    BackgroundColor="Black"
+    Shell.BackgroundColor="Black"
+    Shell.PresentationMode="Animated">
+
+
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="Black" />
+    </Page.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+
+    <Shell.TitleView>
+        <Grid
+            Padding="{OnPlatform Android='0,0,0,0',
+                                 iOS='0,20,0,0'}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+
+
+
+            <!--  Leftmost Button  -->
+
+            <Label
+                Margin="-20,0,0,0"
+                FontAttributes="Bold"
+                FontSize="26"
+                HorizontalOptions="Center"
+                Text="DateRate"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+        </Grid>
+
+    </Shell.TitleView>
+
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="160,Auto, Auto">
+                <BoxView
+                    Grid.ColumnSpan="3"
+                    HeightRequest="160"
+                    HorizontalOptions="FillAndExpand" />
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Margin="0,80,0,0"
+                    Padding="0"
+                    HeightRequest="160"
+                    HorizontalOptions="Start"
+                    Stroke="Black"
+                    StrokeShape="RoundRectangle 80"
+                    StrokeThickness="4"
+                    WidthRequest="160">
+                    <Image
+                        Aspect="AspectFit"
+                        BackgroundColor="Black"
+                        HeightRequest="160"
+                        HorizontalOptions="Fill"
+                        Source="{Binding LocalUserProperty.ImageSource}"
+                        VerticalOptions="Fill"
+                        WidthRequest="160" />
+                </Border>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    HorizontalOptions="Start"
+                    Text="{Binding LocalUserProperty.Name}"
+                    TextColor="White"
+                    VerticalOptions="Start" />
+            </Grid>
+
+            <StackLayout>
+
+                <VerticalStackLayout
+                    Margin="0,20,0,100"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="FillAndExpand">
+                    <!--<Label
+            FontAttributes="Bold"
+            FontSize="26"
+            HorizontalOptions="Center"
+            Text="ShareAble."
+            TextColor="White"
+            VerticalOptions="Center" />-->
+
+                    <CollectionView ItemsSource="{Binding PostsCollection}" SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="1"
+                                Orientation="Vertical"
+                                Span="3"
+                                VerticalItemSpacing="1" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Posts">
+
+                                <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+
+
+
+                                    <Border
+                                        Margin="1"
+                                        Padding="0"
+                                        BackgroundColor="Black"
+                                        HeightRequest="130"
+                                        Stroke="#FFBAF5"
+                                        StrokeShape="RoundRectangle 5">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type profileViewModel:ProfileViewModel}}, Path=GoToPostDetailsCommand}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <VerticalStackLayout Margin="0" Padding="0">
+
+                                            <Image
+                                                Margin="0"
+                                                Aspect="AspectFit"
+                                                HorizontalOptions="Center"
+                                                ScaleX="-1"
+                                                Source="{Binding PictureData, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                                VerticalOptions="Center" />
+
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </VerticalStackLayout>
+
+            </StackLayout>
+
+
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

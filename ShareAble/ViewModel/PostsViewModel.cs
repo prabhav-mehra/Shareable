@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Security.AccessControl;
 using System.Threading;
+using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ShareAble.Database;
 using ShareAble.Model;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 
 namespace ShareAble.ViewModel
@@ -33,8 +35,12 @@ namespace ShareAble.ViewModel
         }
 
         [RelayCommand]
-        private async void PhotoClicked()
+        private async void CaptureClicked(object sender)
         {
+            Console.WriteLine("Capture clicked" + sender);
+
+          
+            
             //await _postsDatabase.DeleteAllItemAsync();
             Console.WriteLine("Photo clicked");
             try
@@ -44,33 +50,48 @@ namespace ShareAble.ViewModel
                     Title = "Select or Capture Photo"
                 };
 
-                var photo = await MediaPicker.CapturePhotoAsync(options);
+                //var photo = await MediaPicker.CapturePhotoAsync(options);
                 //var photo = await MediaPicker.CapturePhotoAsync();
 
-                if (photo != null)
-                {
+               
+                    CameraView cameraView = (CameraView)sender;
+               
                     // Use the captured photo
-                    ImageSource imageSource = ImageSource.FromFile(photo.FullPath);
-                    byte[] imageBytes = File.ReadAllBytes(photo.FullPath);
-                    Console.WriteLine(imageBytes.Length);
-                    string capturedAddress = await GetCurrentLocation();
+                    //ImageSource imageSource = cameraView.TakePhotoAsync();
 
-                    Posts newPost = new Posts
-                    {
-                        PictureId = 0,
-                        UserId = LocalUserId,
-                        PartnerId = PartnerUserId,
-                        PictureData = imageBytes,
-                        Caption = "Beautiful sunset",
-                        Timestamp = DateTime.Now,
-                        UserName = LocalUserName,
-                        UserImage = LocalImageSource,
-                        Address = capturedAddress
-                    };
-         
-                    await _postsDatabase.SaveItemAsync(newPost);
-                    //MyImage.Source = imageSource;
+                    var photoResult = await cameraView.TakePhotoAsync();
+                Console.WriteLine(photoResult.Length);
+                byte[] imageBytes = null;
+                using (var stream = photoResult)
+                {
+                    imageBytes = new byte[stream.Length];
+                    stream.Read(imageBytes, 0, imageBytes.Length);
                 }
+
+                ////byte[] imageBytes = File.ReadAllBytes(photo.FullPath);
+                Console.WriteLine(imageBytes.Length);
+
+                //string capturedAddress = await GetCurrentLocation();
+                string capturedAddress = "1234, 5th Street, New York, NY 10001";
+
+                Console.WriteLine("Local: " + LocalUserId + " " + PartnerUserId);
+                Posts newPost = new Posts
+                {
+                    PictureId = 0,
+                    UserId = LocalUserId,
+                    PartnerId = PartnerUserId,
+                    PictureData = imageBytes,
+                    Caption = "",
+                    Timestamp = DateTime.Now,
+                    UserName = LocalUserName,
+                    UserImage = LocalImageSource,
+                    Address = capturedAddress
+                };
+
+                await _postsDatabase.SaveItemAsync(newPost);
+                await Shell.Current.GoToAsync(nameof(HomeGridView));
+                //MyImage.Source = imageSource;
+
             }
             catch (Exception ex)
             {
@@ -79,12 +100,32 @@ namespace ShareAble.ViewModel
             }
         }
 
+        [RelayCommand]
+        private async void PhotoClicked()
+        {
+            await Shell.Current.GoToAsync(nameof(PostCameraView));
+            return;
+           
+        }
+
+        [RelayCommand]
+        private async void ProfileClicked()
+        {
+            await Shell.Current.GoToAsync(nameof(ProfileView));
+            return;
+
+        }
+
+
         private async void InitialisePartnerDetails()
         {
+            LocalUserId = int.Parse(Preferences.Get("CurrentUserId", string.Empty));
+
             LocalUser localUser = await _localUserDatabase.GetItemAsync(LocalUserId);
             PartnerUserId = localUser.PartnerID;
             LocalUserName = localUser.Name;
             LocalImageSource = localUser.ImageSource;
+            Console.WriteLine("ParterID: " + PartnerUserId);
         }
 
         [RelayCommand]
@@ -107,8 +148,16 @@ namespace ShareAble.ViewModel
 
         public async Task<string> GetCurrentLocation()
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Best);
-            var location = await Geolocation.GetLocationAsync(request);
+            //var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            //var location = await Geolocation.GetLocationAsync(request);
+            //Location location = await Geolocation.Default.GetLastKnownLocationAsync();
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+            CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+
+            Location location = await Geolocation.Default.GetLastKnownLocationAsync();
+            await Task.Delay(1000);
+
             string address = "";
 
             if (location != null)
@@ -143,12 +192,12 @@ namespace ShareAble.ViewModel
         private async void GetPosts(object sender)
 		{
             LocalUserId = int.Parse(Preferences.Get("CurrentUserId", string.Empty));
-
+            Console.WriteLine("LocalUserId" + LocalUserId);
             //ImageSource source = ImageSource.FromFile("emoji1.png");
             //Stream imageStream = await ConvertImageSourceToStream(source);
             //Console.WriteLine("Image Byes" + imageStream);
             //Stream imageStream = null;
-            
+
             //byte[] imageBytes = ConvertFileStreamToByteArray(imageStream);
             // Save the imageData byte array to the SQLite database
 

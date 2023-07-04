@@ -6,6 +6,7 @@ using ShareAble.ViewModel;
 using SQLite;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace ShareAble;
@@ -27,8 +28,21 @@ public partial class MainPage : ContentPage
         database = usersItemDatabase;
         _localDb = localdb;
         Loaded += MainPage_Loaded;
+        contactsViewModel.PropertyChanged += OnViewModelPropertyChanged;
 
         BindingContext = contactsViewModel;
+    }
+
+    // Connect to PropertyChanged event on ViewModel. If LocalUser.HasPartner is true, then disable the Add button from xaml
+    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        Console.WriteLine("Property changed" + e.PropertyName);
+        
+
+        if (e.PropertyName == nameof(_customViewModel.LocalUserProperty))
+        {
+             
+        }
     }
 
     private async void MainPage_Loaded(object sender, EventArgs e)

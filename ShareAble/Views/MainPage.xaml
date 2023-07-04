@@ -5,11 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:contactsViewModel="clr-namespace:ShareAble.ViewModel"
     xmlns:local="clr-namespace:ShareAble.Converters"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:model="clr-namespace:ShareAble.Model"
     x:DataType="contactsViewModel:ContactsViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="False"
     Shell.PresentationMode="Animated">
+
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="Black" />
+    </Page.Behaviors>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -70,13 +75,6 @@
                             FontAttributes="Bold"
                             Text="{Binding LocalUserProperty.Name, StringFormat='Name: {0}'}" />
 
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Margin="10,0,0,0"
-                            FontAttributes="Bold"
-                            IsVisible="{Binding LocalUserProperty.HasPartner}"
-                            Text="{Binding PartnerLocalUser.Name, StringFormat='Partner Name: {0}'}" />
 
                         <!--  Rounded plus button  -->
                         <Border
@@ -108,7 +106,7 @@
                             Grid.Column="1"
                             Orientation="Horizontal">
                             <Border
-                                Margin="-60,10,0,0"
+                                Margin="-10,10,0,0"
                                 Padding="0"
                                 BackgroundColor="Black"
                                 HeightRequest="40"
@@ -116,13 +114,10 @@
                                 WidthRequest="40">
                                 <Image Aspect="AspectFit" Source="{Binding LocalUserProperty.ImageSource}" />
                             </Border>
-                            <Label
-                                Margin="0,20,0,0"
-                                IsVisible="{Binding LocalUserProperty.HasPartner}"
-                                Text=" &lt;----💕----&gt; " />
+
 
                             <Border
-                                Margin="0,10,0,0"
+                                Margin="-10,10,0,0"
                                 Padding="0"
                                 BackgroundColor="Black"
                                 HeightRequest="40"
@@ -146,7 +141,10 @@
                     VerticalOptions="Start" />
 
                 <StackLayout Grid.Row="5" Margin="20">
-                    <CollectionView ItemsSource="{Binding UsersCollection}" SelectionMode="None">
+                    <CollectionView
+                        IsEnabled="{Binding LocalUserProperty.HasPartner, Converter={StaticResource BoolToDisableConverter}, ConverterParameter=ButtonBackground}"
+                        ItemsSource="{Binding UsersCollection}"
+                        SelectionMode="None">
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="2" />
                         </CollectionView.ItemsLayout>
@@ -192,6 +190,7 @@
                                                 Grid.Column="1"
                                                 Margin="10,0,2,0"
                                                 BackgroundColor="{Binding HasPartner, Converter={StaticResource StringToDisableColorConverter}, ConverterParameter=ButtonBackground}"
+                                                BorderColor="{Binding HasPartner, Converter={StaticResource StringToDisableColorConverter}, ConverterParameter=ButtonBackground}"
                                                 BorderWidth="1"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type contactsViewModel:ContactsViewModel}}, Path=AddPartnerCommand}"
                                                 CommandParameter="{Binding .}"
@@ -203,6 +202,7 @@
                                                 MaximumHeightRequest="20"
                                                 MaximumWidthRequest="80"
                                                 Text="Add"
+                                                TextColor="Black"
                                                 VerticalOptions="Start"
                                                 WidthRequest="80" />
                                             <!--<Button
@@ -247,7 +247,7 @@
                                                     <FormattedString>
                                                         <Span Text="💖" />
                                                         <Span Text="  " />
-                                                        <Span Text="{Binding Name}" />
+                                                        <Span FontAttributes="Bold" Text="{Binding Name}" />
                                                     </FormattedString>
                                                 </Label.FormattedText>
 

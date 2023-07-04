@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Google.Crypto.Tink.Mac;
 
 namespace ShareAble.ViewModel
 {
@@ -26,6 +25,14 @@ namespace ShareAble.ViewModel
             _postsDatabase = postsDatabase;
             //Caption = Posts?.Caption;
             //Console.WriteLine("PostsDetailViewModel" + Post.PictureId);
+        }
+
+        [RelayCommand]
+        private async void ProfileClicked()
+        {
+            await Shell.Current.GoToAsync(nameof(ProfileView));
+            return;
+
         }
 
         [RelayCommand]

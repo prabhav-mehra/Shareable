@@ -72,6 +72,8 @@ namespace ShareAble.ViewModel
 		private async void SaveUser(object sender)
 		{
             //await _localUsersDatabase.DeleteAllItemAsync();
+            //bool signedUp = false;
+            //Preferences.Set("SignedUp", signedUp.ToString());
             Console.WriteLine("Clicked" + CurrentStep + " " + sender);
             if (sender is Button button)
             {

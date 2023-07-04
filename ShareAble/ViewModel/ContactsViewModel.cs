@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.VisualBasic;
 using ShareAble.Database;
 using ShareAble.Model;
-using static Java.Util.Jar.Attributes;
 
 namespace ShareAble.ViewModel
 {
@@ -206,6 +205,7 @@ namespace ShareAble.ViewModel
             if (sender is RefreshView view)
             {
                 Console.WriteLine("Refresh False");
+                InitialiseLocalUser();
                 // Use the button reference to access properties or perform operations
                 view.IsRefreshing = false;
             }
