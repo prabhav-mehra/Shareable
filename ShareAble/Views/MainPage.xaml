@@ -86,7 +86,7 @@
                             HeightRequest="40"
                             HorizontalOptions="Start"
                             Stroke="Black"
-                            StrokeShape="RoundRectangle 20"
+                            StrokeShape="RoundRectangle 100"
                             WidthRequest="40">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding GoToPostsPageCommand}" />

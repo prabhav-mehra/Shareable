@@ -81,7 +81,7 @@
             HeightRequest="100"
             HorizontalOptions="Center"
             Stroke="#FFBAF5"
-            StrokeShape="RoundRectangle 50"
+            StrokeShape="RoundRectangle 200"
             VerticalOptions="End"
             WidthRequest="100">
             <Border.GestureRecognizers>

@@ -1,20 +1,27 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SQLite;
 
 namespace ShareAble.Model
 {
-    public class Posts
+    public partial class Posts : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
         public int PictureId { get; set; }
         public int UserId { get; set; }
         public int PartnerId { get; set; }
-        public byte[] PictureData { get; set; }
-        public string Caption { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string UserName { get; set; }
-        public string UserImage { get; set; }
-        public string Address { get; set; }
+
+        [ObservableProperty]
+        public byte[] pictureData;
+        [ObservableProperty]
+        public string caption;
+        [ObservableProperty]
+        public DateTime timestamp;
+        [ObservableProperty]
+        public string userName;
+        [ObservableProperty]
+        public string userImage;
+        [ObservableProperty]
+        public string address;
     }
 }
 

@@ -1,18 +1,24 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SQLite;
 
 namespace ShareAble.Model
 {
-	public class LocalUser
-	{
-        public string Name { get; set; }
+    public partial class LocalUser : ObservableObject
+    {
+        [ObservableProperty]
+        public string name;
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public long ContactNumber { get; set; }
-        public string DOB { get; set; }
-        public string ImageSource { get; set; }
-        public bool HasPartner { get; set; }
-        public int PartnerID { get; set; }
+        [ObservableProperty]
+        public long contactNumber;
+        [ObservableProperty]
+        public string dOB;
+        [ObservableProperty]
+        public string imageSource;
+        [ObservableProperty]
+        public bool hasPartner;
+        [ObservableProperty]
+        public int partnerID;
         //public string PartnerName { get; set; }
         //public long PartnerContactNumber { get; set; }
         //public string PartnerImageSource { get; set; }

@@ -1,10 +1,5 @@
-
-using CommunityToolkit.Maui.Core.Platform;
-using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Mvvm.Messaging;
 using ShareAble.Database;
 using ShareAble.ViewModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -17,8 +12,8 @@ public partial class SignUpName : ContentPage
 
     public SignUpName(PartnerItemDatabase usersItemDatabase, UsersItemViewModel usersViewModel)
     {
-       
-		//entryName.ShowKeyboardAsync(CancellationToken.None);
+
+        //entryName.ShowKeyboardAsync(CancellationToken.None);
         InitializeComponent();
 
         _usersItemViewModel = usersViewModel;
@@ -28,10 +23,10 @@ public partial class SignUpName : ContentPage
 
     }
 
-    
+
     private void OnEntryChanged(object sender, TextChangedEventArgs e)
     {
-        if(_usersItemViewModel.CurrentStep == 0)
+        if (_usersItemViewModel.CurrentStep == 0)
         {
             buttonContinue.IsEnabled = e?.NewTextValue.Length > 2 ? true : false;
             buttonContinue.BackgroundColor = buttonContinue.IsEnabled.CompareTo(true) == 0 ? Color.FromRgb(255, 106, 233) : Colors.Gray;
@@ -47,13 +42,13 @@ public partial class SignUpName : ContentPage
         {
             Debug.WriteLine("Date is valid");
             buttonContinue.IsEnabled = true;
-           
+
         }
         else
         {
             Debug.WriteLine("date invalid");
             buttonContinue.IsEnabled = false;
-           
+
         }
         buttonContinue.BackgroundColor = buttonContinue.IsEnabled.CompareTo(true) == 0 ? Color.FromRgb(255, 106, 233) : Colors.Gray;
 

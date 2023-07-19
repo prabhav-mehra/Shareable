@@ -42,7 +42,7 @@
                 HeightRequest="30"
                 HorizontalOptions="Start"
                 Stroke="#FFBAF5"
-                StrokeShape="RoundRectangle 15"
+                StrokeShape="RoundRectangle 50"
                 VerticalOptions="Center"
                 WidthRequest="30">
                 <Border.GestureRecognizers>
@@ -105,13 +105,10 @@
         x:Name="refreshView"
         Command="{Binding GetPostsCommand}"
         CommandParameter="{x:Reference refreshView}">
-        <ScrollView>
-            <StackLayout>
 
-                <VerticalStackLayout
-                    Margin="0,20,0,100"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="FillAndExpand">
+        <Grid RowDefinitions="*">
+
+       
                     <!--<Label
             FontAttributes="Bold"
             FontSize="26"
@@ -120,7 +117,7 @@
             TextColor="White"
             VerticalOptions="Center" />-->
 
-                    <CollectionView ItemsSource="{Binding PostsCollection}" SelectionMode="Single">
+                <CollectionView Grid.Row="0" ItemsSource="{Binding PostsCollection}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="1" />
                         </CollectionView.ItemsLayout>
@@ -220,9 +217,9 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                </VerticalStackLayout>
-            </StackLayout>
-        </ScrollView>
+              
+        </Grid>
+       
     </RefreshView>
 
 </ContentPage>

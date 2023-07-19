@@ -1,10 +1,9 @@
-﻿using System;
-using SQLite;
+﻿using SQLite;
 
 namespace ShareAble.Model
 {
-	public class Partner
-	{
+    public class Partner
+    {
         //public string Name { get; set; }
         //[PrimaryKey, AutoIncrement]
         //public int ID { get; set; }
@@ -17,9 +16,9 @@ namespace ShareAble.Model
         //public string PartnerImageSource { get; set; }
         [PrimaryKey, AutoIncrement]
         public int PartnerId { get; set; }
-      
+
         public int UserId { get; set; }
-    
+
         public int PartnerUserId { get; set; }
     }
 }
